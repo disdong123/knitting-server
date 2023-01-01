@@ -27,6 +27,7 @@ WORKDIR ${WORK_DIR}
 COPY --from=builder ${WORK_DIR}/dependencies/ ./
 COPY --from=builder ${WORK_DIR}/spring-boot-loader/ ./
 COPY --from=builder ${WORK_DIR}/snapshot-dependencies/ ./
+RUN true
 COPY --from=builder ${WORK_DIR}/application/ ./
 
 
