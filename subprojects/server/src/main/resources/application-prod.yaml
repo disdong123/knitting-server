@@ -1,4 +1,4 @@
 spring:
   config:
     import:
-      - mysql.yaml
+      - mysql-prod.yaml
