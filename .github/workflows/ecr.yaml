@@ -3,12 +3,16 @@ name: ci
 on:
   push:
     branches:
-      - main
+      - ecr
 
 # TODO
 permissions:
   id-token: write
   contents: read
+
+env:
+  AWS_ECR_REPOSITORY: image-registry
+  IMAGE_TAG: ${{ github.sha }}
 
 jobs:
   ci:
@@ -48,10 +52,28 @@ jobs:
 
       #
       - name: Build, tag, and push docker image to Amazon ECR
-        env:
-          REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          REPOSITORY: image-registry
-          IMAGE_TAG: ${{ github.sha }}
         run: |
-          docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG ./subprojects/server
-          docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
+          docker build -t ${{ steps.login-ecr.outputs.registry }}/${{ AWS_ECR_REPOSITORY }}:{{ $IMAGE_TAG }} ./subprojects/server
+          docker push ${{ steps.login-ecr.outputs.registry }}/${{ AWS_ECR_REPOSITORY }}:${{ IMAGE_TAG }}
+
+  # cd 시, pull 받기가 dockerhub 보다 힘듭니다.
+  cd:
+    needs: ci
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Configure aws credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          role-to-assume: ${{ secrets.AWS_OIDC_ROLE_ARN }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: executing remote ssh commands using password
+        uses: appleboy/ssh-action@v0.1.6
+        with:
+          host: ${{ secrets.AWS_EC2_HOST }}
+          username: ubuntu
+          key: ${{ secrets.AWS_EC2_PEM }}
+          script: |

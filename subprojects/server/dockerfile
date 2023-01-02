@@ -32,4 +32,4 @@ COPY --from=builder ${WORK_DIR}/application/ ./
 
 
 # TODO. 확인 필요
-ENTRYPOINT [ "java", "-Dspring.profiles.active=dev", "org.springframework.boot.loader.JarLauncher" ]
+ENTRYPOINT [ "java", "-Dspring.profiles.active=prod", "org.springframework.boot.loader.JarLauncher" ]
