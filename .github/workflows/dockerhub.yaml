@@ -11,7 +11,6 @@ permissions:
   contents: read
 
 env:
-  AWS_ECR_REPOSITORY: image-registry
   IMAGE_TAG: ${{ github.sha }}
 
 jobs:
@@ -54,7 +53,7 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           push: true
-          tags: gksrlfw/knitting-server:latest
+          tags: ${{ secrets.DOCKERHUB_USER }}/knitting-server:${{ env.IMAGE_TAG }}
           context: ./subprojects/server
 
   cd:
@@ -72,13 +71,20 @@ jobs:
           key: ${{ secrets.AWS_EC2_PEM }}
           script: |
             docker login -u ${{ secrets.DOCKERHUB_USER }} -p ${{ secrets.DOCKERHUB_PASSWORD }}
-            docker pull ${{ secrets.DOCKERHUB_USER }}/knitting-server:latest
+            
+            docker image prune -af
+            
+            docker pull ${{ secrets.DOCKERHUB_USER }}/knitting-server:${{ env.IMAGE_TAG }}
             
             rm -f init.sh  
             touch init.sh
             
-            echo docker run -p 80:8080 \
+            echo docker kill knitting >> init.sh
+            echo docker rm knitting >> init.sh
+            echo docker run --name knitting --rm -d -p 80:8080 \
               -e SPRING_DATASOURCE_URL=${{ secrets.SPRING_DATASOURCE_URL }} \
               -e SPRING_DATASOURCE_USERNAME=${{ secrets.SPRING_DATASOURCE_USERNAME }} \
               -e SPRING_DATASOURCE_PASSWORD=${{ secrets.SPRING_DATASOURCE_PASSWORD }} \
-              ${{ secrets.DOCKERHUB_USER }}/knitting-server:latest >> init.sh
+              ${{ secrets.DOCKERHUB_USER }}/knitting-server:${{ env.IMAGE_TAG }} >> init.sh
+            
+            bash init.sh

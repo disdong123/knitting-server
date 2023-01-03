@@ -1,4 +1,4 @@
-rootProject.name = "gradle-multi-module-template"
+rootProject.name = "knitting-server"
 
 include(
     "subprojects:server",
