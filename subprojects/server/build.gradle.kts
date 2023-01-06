@@ -1,7 +1,7 @@
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
 
-    implementation(project(":subprojects:core:mysql"))
+    implementation(project(":subprojects:domain"))
 }
 
 tasks.getByName("bootJar") {

@@ -1,0 +1,10 @@
+GET https://knitting-api.babypig.click/health
+
+
+###
+POST https://knitting-api.babypig.click/post
+Content-Type: application/json
+
+{
+  "title": "hello"
+}

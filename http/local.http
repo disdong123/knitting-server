@@ -1,1 +1,10 @@
-GET http://localhost:8080/t1
+GET http://localhost:8080/health
+
+
+###
+POST http://localhost:8080/post
+Content-Type: application/json
+
+{
+  "title": "hello"
+}

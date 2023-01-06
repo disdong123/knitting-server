@@ -2,7 +2,8 @@ rootProject.name = "knitting-server"
 
 include(
     "subprojects:server",
-    "subprojects:core:mysql"
+    "subprojects:domain",
+    "subprojects:domain-jpa"
 )
 
 // https://github.com/gradle/gradle/issues/9830
