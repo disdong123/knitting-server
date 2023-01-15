@@ -35,6 +35,8 @@ subprojects {
         implementation("org.jetbrains.kotlin:kotlin-reflect")
         implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
         testImplementation("org.springframework.boot:spring-boot-starter-test")
+        implementation("org.springframework.boot:spring-boot-configuration-processor")
+
         // 얘때문에 테스트가 안됩니다.......
         // testImplementation("io.mockk:mockk:1.4.1")
         testImplementation("com.navercorp.fixturemonkey:fixture-monkey-starter-kotlin:0.4.10")

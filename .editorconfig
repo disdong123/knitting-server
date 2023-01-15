@@ -1,0 +1,20 @@
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+indent_size = 4
+indent_style = space
+trim_trailing_whitespace = true
+insert_final_newline = true
+max_line_length = 120
+tab_width = 4
+no_consecutive_blank_lines = false
+
+[*.yaml]
+tab_width = 2
+indent_size = 2
+
+[*.{kt,kts}]
+disabled_rules = no-wildcard-imports,max-line-length
+ktlint_disabled_rules=import-ordering

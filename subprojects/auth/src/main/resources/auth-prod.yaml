@@ -1,0 +1,6 @@
+kakao:
+  oauth:
+    redirect:
+      uri:
+    client:
+      id:

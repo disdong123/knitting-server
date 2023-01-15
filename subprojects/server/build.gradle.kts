@@ -1,7 +1,9 @@
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
 
-    implementation(project(":subprojects:domain"))
+    implementation(project(":subprojects:domain-jpa"))
+    implementation(project(":subprojects:auth"))
+    implementation(project(":subprojects:common"))
 }
 
 tasks.getByName("bootJar") {
