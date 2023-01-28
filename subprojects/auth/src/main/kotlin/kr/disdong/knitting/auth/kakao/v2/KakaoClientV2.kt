@@ -1,11 +1,10 @@
-package kr.disdong.knitting.auth.kakao
+package kr.disdong.knitting.auth.kakao.v2
 
-import jakarta.servlet.http.HttpServletResponse
 import kr.disdong.knitting.auth.common.exception.GetTokenFailedException
-import kr.disdong.knitting.auth.kakao.dto.GetTokenResponse
-import kr.disdong.knitting.auth.kakao.dto.GetTokenResponseCamel
-import kr.disdong.knitting.auth.kakao.dto.LogoutResponse
-import kr.disdong.knitting.auth.kakao.dto.OAuthCallbackResponse
+import kr.disdong.knitting.auth.kakao.v2.dto.LogoutResponseV2
+import kr.disdong.knitting.auth.kakao.v2.dto.OAuthCallbackResponseV2
+import kr.disdong.knitting.auth.kakao.v2.dto.TokenResponseCamelV2
+import kr.disdong.knitting.auth.kakao.v2.dto.TokenResponseV2
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpHeaders
@@ -15,13 +14,12 @@ import org.springframework.stereotype.Component
 import org.springframework.util.LinkedMultiValueMap
 import org.springframework.util.MultiValueMap
 import org.springframework.web.client.RestTemplate
-import org.springframework.web.reactive.function.client.WebClient
 
 @Component
-class KakaoClient(
-    @Value("\${kakao.oauth.redirect.uri}")
+class KakaoClientV2(
+    @Value("\${kakao.oauth.v2.redirect.uri}")
     private val REDIRECT_URI: String,
-    @Value("\${kakao.oauth.client.id}")
+    @Value("\${kakao.oauth.v2.client.id}")
     private val CLIENT_ID: String,
 ) {
 
@@ -30,19 +28,11 @@ class KakaoClient(
     private val restTemplate = RestTemplate()
 
     /**
-     * kakao 로그인 페이지로 리다이렉트시킵니다.
-     * @param httpServletResponse
-     */
-    fun login(httpServletResponse: HttpServletResponse) {
-        httpServletResponse.sendRedirect("$url/authorize?client_id=$CLIENT_ID&redirect_uri=$REDIRECT_URI&response_type=code&scope=openid")
-    }
-
-    /**
      * code 를 이용하여 access token 을 가져옵니다.
      * @param response
      */
     @Throws(GetTokenFailedException::class)
-    fun getToken(response: OAuthCallbackResponse): GetTokenResponseCamel {
+    fun getToken(response: OAuthCallbackResponseV2): TokenResponseCamelV2 {
         val header = HttpHeaders()
 
         header.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8")
@@ -57,7 +47,7 @@ class KakaoClient(
         val request = HttpEntity(body, header)
 
         return restTemplate
-            .exchange("$url/token", HttpMethod.POST, request, GetTokenResponse::class.java)
+            .exchange("$url/token", HttpMethod.POST, request, TokenResponseV2::class.java)
             .body
             ?.toCamel() ?: throw GetTokenFailedException(null)
     }
@@ -67,7 +57,7 @@ class KakaoClient(
      * 사용자 액세스 토큰과 리프레시 토큰을 모두 만료시킵니다.
      * @param accessToken
      */
-    fun logout(accessToken: String): ResponseEntity<LogoutResponse> {
+    fun logout(accessToken: String): ResponseEntity<LogoutResponseV2> {
         val header = HttpHeaders()
 
         header.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8")
@@ -75,6 +65,6 @@ class KakaoClient(
 
         val request = HttpEntity<Object>(header)
 
-        return restTemplate.exchange("https://kapi.kakao.com/v1/user/logout", HttpMethod.POST, request, LogoutResponse::class.java)
+        return restTemplate.exchange("https://kapi.kakao.com/v1/user/logout", HttpMethod.POST, request, LogoutResponseV2::class.java)
     }
 }

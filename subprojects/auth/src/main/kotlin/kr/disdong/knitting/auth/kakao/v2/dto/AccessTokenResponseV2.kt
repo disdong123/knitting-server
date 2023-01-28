@@ -1,8 +1,11 @@
-package kr.disdong.knitting.auth.kakao.dto
+package kr.disdong.knitting.auth.kakao.v2.dto
 
 import java.util.Base64
 
-data class GetTokenResponse(
+/**
+ * id token, access token, refresh token 모두 포함됩니다.
+ */
+data class TokenResponseV2(
     val token_type: String,
     val access_token: String,
     val id_token: String? = null,
@@ -16,8 +19,8 @@ data class GetTokenResponse(
      *
      * @return
      */
-    fun toCamel(): GetTokenResponseCamel {
-        return GetTokenResponseCamel(
+    fun toCamel(): TokenResponseCamelV2 {
+        return TokenResponseCamelV2(
             token_type,
             access_token,
             id_token,
@@ -29,7 +32,7 @@ data class GetTokenResponse(
     }
 }
 
-data class GetTokenResponseCamel(
+data class TokenResponseCamelV2(
     val tokenType: String,
     val accessToken: String,
     val idToken: String? = null,
@@ -51,9 +54,9 @@ data class GetTokenResponseCamel(
      *
      * @return
      */
-    fun decodeIdToken(): IdToken {
+    fun decodeIdToken(): IdTokenV2 {
         val decoder = Base64.getUrlDecoder()
 
-        return IdToken.of(String(decoder.decode(toArrayIdToken()[1])))
+        return IdTokenV2.of(String(decoder.decode(toArrayIdToken()[1])))
     }
 }

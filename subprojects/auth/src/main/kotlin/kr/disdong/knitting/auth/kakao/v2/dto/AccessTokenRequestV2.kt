@@ -1,4 +1,4 @@
-package kr.disdong.knitting.auth.kakao.dto
+package kr.disdong.knitting.auth.kakao.v2.dto
 
 /**
  * https://developers.kakao.com/docs/latest/ko/kakaologin/rest-api#request-token-request
@@ -8,7 +8,7 @@ package kr.disdong.knitting.auth.kakao.dto
  * @property client_secret
  * @property grant_type
  */
-data class AccessTokenRequest(
+data class AccessTokenRequestV2(
     val client_id: String,
     val redirect_uri: String,
     val code: String,

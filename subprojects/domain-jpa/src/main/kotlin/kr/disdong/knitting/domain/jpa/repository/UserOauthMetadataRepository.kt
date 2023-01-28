@@ -6,10 +6,8 @@ import org.springframework.data.jpa.repository.JpaRepository
 
 interface UserOauthMetadataRepository : JpaRepository<UserOauthMetadata, Long>, UserOauthMetadataRepositoryCustom
 
-interface UserOauthMetadataRepositoryCustom {
-}
+interface UserOauthMetadataRepositoryCustom
 
 class UserOauthMetadataRepositoryImpl(
     private val jpaQueryFactory: JPAQueryFactory
-) : UserOauthMetadataRepositoryCustom {
-}
+) : UserOauthMetadataRepositoryCustom

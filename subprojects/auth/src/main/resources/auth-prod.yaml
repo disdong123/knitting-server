@@ -1,6 +1,12 @@
 kakao:
   oauth:
-    redirect:
-      uri:
-    client:
-      id:
+    v1:
+      redirect:
+        uri:
+      client:
+        id:
+    v2:
+      redirect:
+        uri:
+      client:
+        id:

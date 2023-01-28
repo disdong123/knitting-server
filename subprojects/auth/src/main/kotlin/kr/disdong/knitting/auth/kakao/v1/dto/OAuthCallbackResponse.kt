@@ -1,4 +1,4 @@
-package kr.disdong.knitting.auth.kakao.dto
+package kr.disdong.knitting.auth.kakao.v1.dto
 
 /**
  * https://developers.kakao.com/docs/latest/ko/kakaologin/rest-api#request-code-response

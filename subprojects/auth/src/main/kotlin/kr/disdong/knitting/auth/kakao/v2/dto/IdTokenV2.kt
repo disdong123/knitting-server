@@ -1,8 +1,8 @@
-package kr.disdong.knitting.auth.kakao.dto
+package kr.disdong.knitting.auth.kakao.v2.dto
 
 import com.google.gson.Gson
 
-data class IdToken(
+data class IdTokenV2(
     val iss: String,
     val aud: String,
     val sub: String,
@@ -13,8 +13,8 @@ data class IdToken(
 ) {
     companion object {
 
-        fun of(str: String): IdToken {
-            return Gson().fromJson(str, IdToken::class.java)
+        fun of(str: String): IdTokenV2 {
+            return Gson().fromJson(str, IdTokenV2::class.java)
         }
     }
 }

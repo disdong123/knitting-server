@@ -1,6 +1,6 @@
-package kr.disdong.knitting.auth.kakao.dto
+package kr.disdong.knitting.auth.kakao.v2.dto
 
-data class IdTokenUserInfo(
+data class IdTokenUserInfoV2(
     val sub: String,
     val name: String?,
     val nickname: String?,

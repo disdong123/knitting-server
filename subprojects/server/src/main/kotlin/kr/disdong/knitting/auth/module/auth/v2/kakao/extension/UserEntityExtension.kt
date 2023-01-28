@@ -1,10 +1,10 @@
-package kr.disdong.knitting.auth.module.auth.v1.kakao.extension
+package kr.disdong.knitting.auth.module.auth.v2.kakao.extension
 
-import kr.disdong.knitting.auth.module.auth.v1.kakao.dto.LoginResponse
+import kr.disdong.knitting.auth.module.auth.v2.kakao.dto.LoginResponseV2
 import kr.disdong.knitting.domain.jpa.domain.UserEntity
 
-fun UserEntity.toLoginResponse(): LoginResponse {
-    return LoginResponse(
+fun UserEntity.toLoginResponseV2(): LoginResponseV2 {
+    return LoginResponseV2(
         id = this.id!!,
         name = this.name,
         phone = this.phone,
