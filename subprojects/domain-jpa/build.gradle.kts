@@ -8,5 +8,8 @@ dependencies {
     api("com.vladmihalcea:hibernate-types-60:2.20.0")
     api("com.infobip:infobip-spring-data-jpa-querydsl-boot-starter:8.0.0")
     kapt("com.querydsl:querydsl-apt:5.0.0:jakarta")
+
+    implementation(project(":subprojects:common"))
+
     runtimeOnly("mysql:mysql-connector-java")
 }

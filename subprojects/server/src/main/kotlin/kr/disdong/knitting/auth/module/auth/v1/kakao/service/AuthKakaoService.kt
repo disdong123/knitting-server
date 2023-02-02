@@ -7,7 +7,7 @@ import kr.disdong.knitting.auth.module.auth.v1.kakao.extension.toLoginResponse
 import kr.disdong.knitting.common.logger.logger
 import kr.disdong.knitting.domain.jpa.domain.OauthType
 import kr.disdong.knitting.domain.jpa.domain.UserEntity
-import kr.disdong.knitting.domain.jpa.domain.UserOauthMetadata
+import kr.disdong.knitting.domain.jpa.domain.UserOauthMetadataEntity
 import kr.disdong.knitting.domain.jpa.repository.UserOauthMetadataRepository
 import kr.disdong.knitting.domain.jpa.repository.UserRepository
 import org.springframework.stereotype.Service
@@ -36,12 +36,14 @@ class AuthKakaoService(
 
         var user = userRepository.findByIdAndType(idToken.sub, OauthType.KAKAO)
 
+        println(user)
+
         if (user == null) {
             val metadata = userOauthMetadataRepository.save(
-                UserOauthMetadata(
+                UserOauthMetadataEntity(
                     id = idToken.sub,
                     nickname = idToken.nickname,
-                    type = OauthType.KAKAO
+                    type = OauthType.KAKAO,
                 )
             )
 

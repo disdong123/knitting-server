@@ -4,7 +4,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory
 import kr.disdong.knitting.domain.jpa.domain.*
 import org.springframework.data.jpa.repository.JpaRepository
 
-interface UserOauthMetadataRepository : JpaRepository<UserOauthMetadata, Long>, UserOauthMetadataRepositoryCustom
+interface UserOauthMetadataRepository : JpaRepository<UserOauthMetadataEntity, Long>, UserOauthMetadataRepositoryCustom
 
 interface UserOauthMetadataRepositoryCustom
 

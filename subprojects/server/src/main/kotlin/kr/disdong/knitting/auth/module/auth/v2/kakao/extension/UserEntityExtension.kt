@@ -1,9 +1,10 @@
 package kr.disdong.knitting.auth.module.auth.v2.kakao.extension
 
 import kr.disdong.knitting.auth.module.auth.v2.kakao.dto.LoginResponseV2
+import kr.disdong.knitting.common.token.Token
 import kr.disdong.knitting.domain.jpa.domain.UserEntity
 
-fun UserEntity.toLoginResponseV2(): LoginResponseV2 {
+fun UserEntity.toLoginResponseV2(accessToken: Token): LoginResponseV2 {
     return LoginResponseV2(
         id = this.id!!,
         name = this.name,
@@ -11,5 +12,6 @@ fun UserEntity.toLoginResponseV2(): LoginResponseV2 {
         oauthId = this.userOauthMetadata.id,
         oauthNickname = this.userOauthMetadata.nickname,
         oauthType = this.userOauthMetadata.type,
+        accessToken = accessToken
     )
 }

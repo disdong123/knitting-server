@@ -12,6 +12,9 @@ data class UserEntity(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null,
 
+    @OneToOne
+    var userOauthMetadata: UserOauthMetadataEntity,
+
     @Column(
         nullable = true,
         unique = false,
@@ -41,8 +44,4 @@ data class UserEntity(
     @Column
     @LastModifiedDate
     var updatedAt: LocalDateTime? = LocalDateTime.now(),
-
-    @OneToOne
-    @JoinColumn(name = "id")
-    var userOauthMetadata: UserOauthMetadata
 )
