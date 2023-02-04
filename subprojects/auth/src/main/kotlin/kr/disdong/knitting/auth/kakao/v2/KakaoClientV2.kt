@@ -17,6 +17,7 @@ import org.springframework.web.client.RestTemplate
 
 @Component
 class KakaoClientV2(
+    // v2 는 client 에서 카카오 페이지를 띄웁니다. 따라서 클라이언트에게 받습니다.
     @Value("\${kakao.oauth.v2.redirect.uri}")
     private val REDIRECT_URI: String,
     @Value("\${kakao.oauth.v2.client.id}")
@@ -41,7 +42,7 @@ class KakaoClientV2(
         val body: MultiValueMap<String, String> = LinkedMultiValueMap()
         body.add("grant_type", "authorization_code")
         body.add("client_id", CLIENT_ID)
-        body.add("redirect_uri", REDIRECT_URI)
+        body.add("redirect_uri", response.redirectUri) // client 에서 받아옵니다.
         body.add("code", response.code)
 
         val request = HttpEntity(body, header)

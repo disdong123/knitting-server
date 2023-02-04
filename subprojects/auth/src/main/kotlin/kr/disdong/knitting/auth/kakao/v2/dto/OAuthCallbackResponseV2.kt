@@ -12,4 +12,5 @@ data class OAuthCallbackResponseV2(
     val state: String?,
     val error: String?,
     val error_description: String?,
+    val redirectUri: String,
 )
