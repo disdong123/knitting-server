@@ -57,8 +57,8 @@ class AuthKakaoServiceV2(
 
         logger.info("user: $user")
 
-        val accessToken = tokenManager.create("user", AccessTokenClaims(user!!.id!!, user.name!!), Millis.HOUR)
-        val refreshToken = tokenManager.create("user", AccessTokenClaims(user.id!!, user.name!!), Millis.TWO_WEEKS)
+        val accessToken = tokenManager.create("user", AccessTokenClaims(user!!.id!!), Millis.HOUR)
+        val refreshToken = tokenManager.create("user", AccessTokenClaims(user.id!!), Millis.TWO_WEEKS)
 
         logger.info("token: ${accessToken.value} ${refreshToken.value}")
 
@@ -71,5 +71,4 @@ class AuthKakaoServiceV2(
 
 class AccessTokenClaims(
     val id: Long,
-    val nickname: String,
 )
