@@ -10,7 +10,6 @@ import kr.disdong.knitting.common.token.TokenManager
 import kr.disdong.knitting.domain.jpa.domain.OauthType
 import kr.disdong.knitting.domain.jpa.domain.UserEntity
 import kr.disdong.knitting.domain.jpa.domain.UserOauthMetadataEntity
-import kr.disdong.knitting.domain.jpa.repository.UserOauthMetadataRepository
 import kr.disdong.knitting.domain.jpa.repository.UserRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -19,7 +18,6 @@ import org.springframework.transaction.annotation.Transactional
 class AuthKakaoServiceV2(
     private val kakaoServiceV2: KakaoServiceV2,
     private val userRepository: UserRepository,
-    private val userOauthMetadataRepository: UserOauthMetadataRepository,
     private val tokenManager: TokenManager<AccessTokenClaims>,
 ) {
 

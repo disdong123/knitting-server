@@ -8,7 +8,6 @@ import kr.disdong.knitting.common.logger.logger
 import kr.disdong.knitting.domain.jpa.domain.OauthType
 import kr.disdong.knitting.domain.jpa.domain.UserEntity
 import kr.disdong.knitting.domain.jpa.domain.UserOauthMetadataEntity
-import kr.disdong.knitting.domain.jpa.repository.UserOauthMetadataRepository
 import kr.disdong.knitting.domain.jpa.repository.UserRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -17,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional
 class AuthKakaoService(
     private val kakaoService: KakaoService,
     private val userRepository: UserRepository,
-    private val userOauthMetadataRepository: UserOauthMetadataRepository
 ) {
 
     private val logger = logger<AuthKakaoService>()
@@ -51,7 +49,8 @@ class AuthKakaoService(
             user = userRepository.save(userEntity)
         }
 
-        logger.info("user: $user")
+        logger.info("user: $user userOauthMetadata: ${user?.userOauthMetadata?.nickname}")
+        logger.info("userOauthMetadata: ${user?.userOauthMetadata?.nickname} ${user?.userOauthMetadata?.id}")
 
         return user!!.toLoginResponse()
     }

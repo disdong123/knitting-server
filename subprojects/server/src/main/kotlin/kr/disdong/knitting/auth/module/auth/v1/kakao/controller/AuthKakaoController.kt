@@ -5,6 +5,7 @@ import kr.disdong.knitting.auth.kakao.v1.KakaoService
 import kr.disdong.knitting.auth.kakao.v1.dto.OAuthCallbackResponse
 import kr.disdong.knitting.auth.module.auth.v1.kakao.dto.LoginResponse
 import kr.disdong.knitting.auth.module.auth.v1.kakao.service.AuthKakaoService
+import kr.disdong.knitting.common.dto.KnittingResponse
 import kr.disdong.knitting.common.logger.logger
 import org.springframework.web.bind.annotation.*
 
@@ -33,10 +34,10 @@ class AuthKakaoController(
      * @param response
      */
     @GetMapping("/callback")
-    fun callback(response: OAuthCallbackResponse): LoginResponse {
+    fun callback(response: OAuthCallbackResponse): KnittingResponse<LoginResponse> {
         logger.info("callback(response: $response)")
 
-        return authKakaoService.login(response)
+        return KnittingResponse.of(authKakaoService.login(response))
     }
 
     /**

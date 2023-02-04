@@ -36,6 +36,7 @@ class ExceptionAdvice {
     @ResponseBody
     fun runtimeException(e: RuntimeException): ResponseEntity<Map<String, String>> {
         println(e)
+        println("${e.message} ${e.stackTrace}")
 
         val responseHeaders = HttpHeaders()
 
