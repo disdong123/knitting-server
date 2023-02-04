@@ -39,19 +39,16 @@ class AuthKakaoService(
         println(user)
 
         if (user == null) {
-            val metadata = userOauthMetadataRepository.save(
-                UserOauthMetadataEntity(
-                    id = idToken.sub,
-                    nickname = idToken.nickname,
-                    type = OauthType.KAKAO,
-                )
+            val userOauthMetadata = UserOauthMetadataEntity(
+                id = idToken.sub,
+                nickname = idToken.nickname,
+                type = OauthType.KAKAO,
             )
 
-            user = userRepository.save(
-                UserEntity(
-                    userOauthMetadata = metadata
-                )
-            )
+            val userEntity = UserEntity(userOauthMetadata = userOauthMetadata)
+
+            userOauthMetadata.user = userEntity
+            user = userRepository.save(userEntity)
         }
 
         logger.info("user: $user")

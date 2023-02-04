@@ -12,7 +12,7 @@ data class UserEntity(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null,
 
-    @OneToOne
+    @OneToOne(mappedBy = "user", cascade = [CascadeType.PERSIST])
     var userOauthMetadata: UserOauthMetadataEntity,
 
     @Column(

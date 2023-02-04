@@ -8,6 +8,8 @@ import kr.disdong.knitting.common.logger.logger
 import kr.disdong.knitting.common.time.Millis
 import kr.disdong.knitting.common.token.TokenManager
 import kr.disdong.knitting.domain.jpa.domain.OauthType
+import kr.disdong.knitting.domain.jpa.domain.UserEntity
+import kr.disdong.knitting.domain.jpa.domain.UserOauthMetadataEntity
 import kr.disdong.knitting.domain.jpa.repository.UserOauthMetadataRepository
 import kr.disdong.knitting.domain.jpa.repository.UserRepository
 import org.springframework.stereotype.Service
@@ -41,23 +43,18 @@ class AuthKakaoServiceV2(
          * TODO.
          *  1. 최초 로그인한 회원이면 일단 데이터 저장하고 반환해준다.
          *      토큰은 다음 요청에서 닉네임을 발게 되면 그때 완전한 회원가입을 했다고 생각하고 토큰을 준다.
-         *  2. oneTOone 에서 user_oatu_metadata 에 user_id 가 있는게 더 맞는거같긴한데,     user_oatu_metadata_id 가 계속 생김... 그리고 조인도 확인해야함.
          */
         if (user == null) {
-            // TODO. 왜 같이 save 안될까??
-            // val metadata = userOauthMetadataRepository.save(
-            //     UserOauthMetadata(
-            //         id = idToken.sub,
-            //         nickname = idToken.nickname,
-            //         type = OauthType.KAKAO
-            //     )
-            // )
-            //
-            // user = userRepository.save(
-            //     UserEntity(
-            //         userOauthMetadata = metadata
-            //     )
-            // )
+            val userOauthMetadata = UserOauthMetadataEntity(
+                id = idToken.sub,
+                nickname = idToken.nickname,
+                type = OauthType.KAKAO,
+            )
+
+            val userEntity = UserEntity(userOauthMetadata = userOauthMetadata)
+
+            userOauthMetadata.user = userEntity
+            user = userRepository.save(userEntity)
         }
 
         logger.info("user: $user")
