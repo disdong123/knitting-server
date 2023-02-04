@@ -71,20 +71,25 @@ jobs:
           key: ${{ secrets.AWS_EC2_PEM }}
           script: |
             docker login -u ${{ secrets.DOCKERHUB_USER }} -p ${{ secrets.DOCKERHUB_PASSWORD }}
-            
+
             docker image prune -af
-            
+
             docker pull ${{ secrets.DOCKERHUB_USER }}/knitting-server:${{ env.IMAGE_TAG }}
-            
-            rm -f init.sh  
+
+            rm -f init.sh
             touch init.sh
-            
+
             echo docker kill knitting >> init.sh
             echo docker rm knitting >> init.sh
             echo docker run --name knitting --rm -d -p 80:8080 \
               -e SPRING_DATASOURCE_URL=${{ secrets.SPRING_DATASOURCE_URL }} \
               -e SPRING_DATASOURCE_USERNAME=${{ secrets.SPRING_DATASOURCE_USERNAME }} \
               -e SPRING_DATASOURCE_PASSWORD=${{ secrets.SPRING_DATASOURCE_PASSWORD }} \
+              -e KAKAO_OAUTH_V1_REDIRECT_URI=${{ secrets.KAKAO_OAUTH_V1_REDIRECT_URI }} \
+              -e KAKAO_OAUTH_V1_CLIENT_ID=${{ secrets.KAKAO_OAUTH_V1_CLIENT_ID }} \
+              -e KAKAO_OAUTH_V2_REDIRECT_URI=${{ secrets.KAKAO_OAUTH_V2_REDIRECT_URI }} \
+              -e KAKAO_OAUTH_V2_CLIENT_ID=${{ secrets.KAKAO_OAUTH_V2_CLIENT_ID }} \
+              -e JWT_SECRETKEY=${{ secrets.JWT_SECRETKEY }} \
               ${{ secrets.DOCKERHUB_USER }}/knitting-server:${{ env.IMAGE_TAG }} >> init.sh
-            
+
             bash init.sh
