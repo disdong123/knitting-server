@@ -1,8 +1,8 @@
 package kr.disdong.knitting.server.module.auth.kakao.extension
 
-import kr.disdong.knitting.server.module.auth.kakao.dto.LoginResponse
 import kr.disdong.knitting.common.token.Token
 import kr.disdong.knitting.domain.jpa.domain.UserEntity
+import kr.disdong.knitting.server.module.auth.kakao.dto.LoginResponse
 
 fun UserEntity.toLoginResponse(accessToken: Token): LoginResponse {
     return LoginResponse(

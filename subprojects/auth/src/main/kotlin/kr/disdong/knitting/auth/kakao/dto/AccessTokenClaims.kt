@@ -1,5 +1,5 @@
 package kr.disdong.knitting.auth.kakao.dto
 
-class AccessTokenClaims(
+data class AccessTokenClaims(
     val id: Long,
 )

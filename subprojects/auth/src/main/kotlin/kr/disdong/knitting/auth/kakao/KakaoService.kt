@@ -5,14 +5,15 @@ import kr.disdong.knitting.auth.common.exception.AuthorizationCodeAccessDeniedEx
 import kr.disdong.knitting.auth.common.exception.GetTokenFailedException
 import kr.disdong.knitting.auth.kakao.dto.LogoutResponse
 import kr.disdong.knitting.auth.kakao.dto.OAuthCallbackResponse
-import kr.disdong.knitting.auth.kakao.dto.TokenResponseCamel
+import kr.disdong.knitting.auth.kakao.dto.TokenResponse
 import kr.disdong.knitting.common.logger.logger
+import kr.disdong.knitting.common.token.Token
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
 
 @Service
 class KakaoService(
-    private val kakaoClientV2: KakaoClient
+    private val kakaoClient: KakaoClient
 ) {
     private val logger = logger<KakaoService>()
 
@@ -22,7 +23,7 @@ class KakaoService(
      */
     fun login(httpServletResponse: HttpServletResponse) {
 
-        kakaoClientV2.login(httpServletResponse)
+        kakaoClient.login(httpServletResponse)
     }
 
     /**
@@ -30,7 +31,7 @@ class KakaoService(
      * @param response
      */
     @Throws(GetTokenFailedException::class)
-    fun getToken(response: OAuthCallbackResponse): TokenResponseCamel {
+    fun getToken(response: OAuthCallbackResponse): TokenResponse {
         logger.info("getToken: $response")
 
         if (response.error == "access_denied") {
@@ -38,7 +39,7 @@ class KakaoService(
             throw AuthorizationCodeAccessDeniedException()
         }
 
-        val tokenResponse = kakaoClientV2.getToken(response)
+        val tokenResponse = kakaoClient.getToken(response)
 
         logger.info("tokenResponse: $tokenResponse")
 
@@ -53,6 +54,14 @@ class KakaoService(
     fun logout(accessToken: String): ResponseEntity<LogoutResponse> {
         logger.info("logout: $accessToken")
 
-        return kakaoClientV2.logout(accessToken)
+        return kakaoClient.logout(accessToken)
+    }
+
+    /**
+     *
+     * @param refreshToken
+     */
+    fun refreshAccessToken(refreshToken: Token): RefreshAccessTokenResponse {
+        return kakaoClient.refreshAccessToken(refreshToken)
     }
 }

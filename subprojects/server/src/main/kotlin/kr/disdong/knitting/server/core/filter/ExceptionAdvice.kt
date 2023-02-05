@@ -25,7 +25,7 @@ class ExceptionAdvice {
     @ResponseBody
     fun knittingException(e: KnittingException): KnittingResponse<KnittingException> {
         val result = KnittingResponse.of<KnittingException>(e)
-        logger.error(result.toString())
+        logger.error("e: $e")
         return result
     }
 

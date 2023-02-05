@@ -1,5 +1,7 @@
 package kr.disdong.knitting.auth.kakao.dto
 
+import io.swagger.v3.oas.annotations.media.Schema
+
 /**
  * https://developers.kakao.com/docs/latest/ko/kakaologin/rest-api#request-code-response
  * @property code
@@ -7,7 +9,8 @@ package kr.disdong.knitting.auth.kakao.dto
  * @property error
  * @property error_description
  */
-data class OAuthCallbackResponse(
+@Schema(description = "login 요청값입니다.")
+class OAuthCallbackResponse(
     val code: String?,
     val state: String?,
     val error: String?,

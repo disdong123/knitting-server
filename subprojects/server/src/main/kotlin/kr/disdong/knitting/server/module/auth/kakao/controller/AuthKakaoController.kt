@@ -2,13 +2,13 @@ package kr.disdong.knitting.server.module.auth.kakao.controller
 
 import jakarta.servlet.http.HttpServletResponse
 import kr.disdong.knitting.auth.kakao.KakaoService
-import kr.disdong.knitting.auth.kakao.dto.LogoutResponse
 import kr.disdong.knitting.auth.kakao.dto.OAuthCallbackResponse
-import kr.disdong.knitting.server.module.auth.kakao.dto.LoginResponse
-import kr.disdong.knitting.server.module.auth.kakao.service.AuthKakaoService
 import kr.disdong.knitting.common.dto.KnittingResponse
 import kr.disdong.knitting.common.logger.logger
-import org.springframework.http.ResponseEntity
+import kr.disdong.knitting.common.token.Token
+import kr.disdong.knitting.server.module.auth.kakao.controller.spec.AuthKakaoControllerSpec
+import kr.disdong.knitting.server.module.auth.kakao.dto.LoginResponse
+import kr.disdong.knitting.server.module.auth.kakao.service.AuthKakaoService
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*
 class AuthKakaoController(
     private val authKakaoService: AuthKakaoService,
     private val kakaoService: KakaoService,
-) {
+) : AuthKakaoControllerSpec {
 
     private val logger = logger<AuthKakaoController>()
 
@@ -36,7 +36,7 @@ class AuthKakaoController(
      * @param response
      */
     @GetMapping("/callback")
-    fun login(response: OAuthCallbackResponse): KnittingResponse<LoginResponse> {
+    override fun callback(response: OAuthCallbackResponse): KnittingResponse<LoginResponse> {
         logger.info("login(response: $response)")
 
         return KnittingResponse.of(authKakaoService.login(response))
@@ -48,8 +48,9 @@ class AuthKakaoController(
      * @param token
      * @return
      */
-    @GetMapping("/logout2")
-    fun logout(@RequestParam token: String): ResponseEntity<LogoutResponse> {
-        return kakaoService.logout(token)
+    @GetMapping("/logout")
+    fun logout(@RequestParam token: Token) {
+        println(token.value)
+        // return kakaoService.logout(token)
     }
 }

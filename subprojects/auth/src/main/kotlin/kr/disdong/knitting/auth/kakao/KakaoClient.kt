@@ -1,11 +1,12 @@
 package kr.disdong.knitting.auth.kakao
 
+import com.fasterxml.jackson.annotation.JsonProperty
 import jakarta.servlet.http.HttpServletResponse
 import kr.disdong.knitting.auth.common.exception.GetTokenFailedException
 import kr.disdong.knitting.auth.kakao.dto.LogoutResponse
 import kr.disdong.knitting.auth.kakao.dto.OAuthCallbackResponse
 import kr.disdong.knitting.auth.kakao.dto.TokenResponse
-import kr.disdong.knitting.auth.kakao.dto.TokenResponseCamel
+import kr.disdong.knitting.common.token.Token
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpHeaders
@@ -25,7 +26,8 @@ class KakaoClient(
     private val CLIENT_ID: String,
 ) {
 
-    private val url = "https://kauth.kakao.com/oauth"
+    private val kauthUrl = "https://kauth.kakao.com/oauth"
+    private val kapiUrl = "https://kapi.kakao.com/v1"
 
     private val restTemplate = RestTemplate()
 
@@ -34,7 +36,7 @@ class KakaoClient(
      * @param httpServletResponse
      */
     fun login(httpServletResponse: HttpServletResponse) {
-        httpServletResponse.sendRedirect("$url/authorize?client_id=$CLIENT_ID&redirect_uri=$REDIRECT_URI&response_type=code&scope=openid")
+        httpServletResponse.sendRedirect("$kauthUrl/authorize?client_id=$CLIENT_ID&redirect_uri=$REDIRECT_URI&response_type=code&scope=openid")
     }
 
     /**
@@ -42,7 +44,7 @@ class KakaoClient(
      * @param response
      */
     @Throws(GetTokenFailedException::class)
-    fun getToken(response: OAuthCallbackResponse): TokenResponseCamel {
+    fun getToken(response: OAuthCallbackResponse): TokenResponse {
         val header = HttpHeaders()
 
         header.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8")
@@ -57,9 +59,8 @@ class KakaoClient(
         val request = HttpEntity(body, header)
 
         return restTemplate
-            .exchange("$url/token", HttpMethod.POST, request, TokenResponse::class.java)
-            .body
-            ?.toCamel() ?: throw GetTokenFailedException(null)
+            .exchange("$kauthUrl/token", HttpMethod.POST, request, TokenResponse::class.java)
+            .body!!
     }
 
     /**
@@ -77,4 +78,80 @@ class KakaoClient(
 
         return restTemplate.exchange("https://kapi.kakao.com/v1/user/logout", HttpMethod.POST, request, LogoutResponse::class.java)
     }
+
+    /**
+     *
+     * @param refreshToken
+     */
+    fun refreshAccessToken(refreshToken: Token): RefreshAccessTokenResponse {
+        val header = HttpHeaders()
+
+        header.add("Content-type", "application/x-www-form-urlencoded")
+
+        // TODO dto 를 사용할 수 있는지 확인 필요.
+        val body: MultiValueMap<String, String> = LinkedMultiValueMap()
+        body.add("grant_type", "refresh_token")
+        body.add("client_id", CLIENT_ID)
+        body.add("refresh_token", refreshToken.value) // client 에서 받아옵니다.
+
+        val request = HttpEntity(body, header)
+
+        return restTemplate
+            .exchange("$kauthUrl/token", HttpMethod.POST, request, RefreshAccessTokenResponse::class.java)
+            .body!!
+    }
 }
+
+class RefreshAccessTokenResponse(
+    @JsonProperty("token_type")
+    val tokenType: String,
+    @JsonProperty("access_token")
+    val accessToken: Token,
+    @JsonProperty("id_token")
+    val idToken: String?,
+    @JsonProperty("expires_in")
+    val expiresIn: Int,
+    @JsonProperty("refresh_token")
+    val refreshToken: Token?,
+    @JsonProperty("refresh_token_expires_in")
+    val refreshTokenExpiresIn: Int?,
+)
+// /**
+//  * https://developers.kakao.com/docs/latest/ko/kakaologin/rest-api#refresh-token-response
+//  * @property token_type
+//  * @property access_token
+//  * @property id_token
+//  * @property expires_in
+//  * @property refresh_token
+//  * @property refresh_token_expires_in
+//  */
+// class RefreshAccessTokenResponse(
+//     val token_type: String, //
+//     val access_token: String,
+//     val id_token: String?,
+//     val expires_in: Int,
+//     val refresh_token: String?,
+//     val refresh_token_expires_in: Int?,
+// ) {
+//
+//     fun toCamel(): RefreshAccessTokenResponseCamel {
+//         return RefreshAccessTokenResponseCamel(
+//             token_type,
+//             Token(access_token),
+//             id_token,
+//             expires_in,
+//             (if(refresh_token != null) Token(refresh_token)
+//             else refresh_token),
+//             refresh_token_expires_in
+//         )
+//     }
+// }
+//
+// class RefreshAccessTokenResponseCamel(
+//     val tokenType: String,
+//     val accessToken: Token,
+//     val idToken: String?,
+//     val expiresIn: Int,
+//     val refreshToken: Token?,
+//     val refreshTokenExpiresIn: Int?,
+// )

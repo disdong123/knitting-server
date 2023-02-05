@@ -36,9 +36,12 @@ subprojects {
         implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
         testImplementation("org.springframework.boot:spring-boot-starter-test")
         implementation("org.springframework.boot:spring-boot-configuration-processor")
+        // https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-starter-webmvc-ui
+        implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2")
 
         // 얘때문에 테스트가 안됩니다.......
-        // testImplementation("io.mockk:mockk:1.4.1")
+        // https://mvnrepository.com/artifact/io.mockk/mockk
+        testImplementation("io.mockk:mockk:1.13.4")
         testImplementation("com.navercorp.fixturemonkey:fixture-monkey-starter-kotlin:0.4.10")
     }
 
