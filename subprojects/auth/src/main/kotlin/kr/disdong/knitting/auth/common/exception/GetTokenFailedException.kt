@@ -1,6 +1,6 @@
 package kr.disdong.knitting.auth.common.exception
 
-import kr.disdong.knitting.auth.kakao.v1.dto.TokenResponse
+import kr.disdong.knitting.auth.kakao.dto.TokenResponse
 
 /**
  *

@@ -15,7 +15,7 @@ internal class TokenManagerTest {
         val token = tokenManager.create("user", User("hankil"), Millis.HOUR)
 
         println(token)
-        val a = token.getCustomClaims(secretKey, object : TypeReference<User>() {})
+        val a = tokenManager.getCustomClaims(token, object : TypeReference<User>() {})
 
         println(a.test)
     }

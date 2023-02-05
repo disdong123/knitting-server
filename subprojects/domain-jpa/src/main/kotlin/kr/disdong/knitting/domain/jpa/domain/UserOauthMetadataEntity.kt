@@ -41,11 +41,20 @@ class UserOauthMetadataEntity(
     )
     var type: OauthType,
 
+    @Comment("access token. redis?")
+    @Column(
+        nullable = true,
+        unique = true,
+        length = 255,
+    )
+    @Convert(converter = TokenConverter::class)
+    var accessToken: Token? = null,
+
     @Comment("refresh token. redis?")
     @Column(
         nullable = true,
         unique = true,
-        length = 100,
+        length = 255,
     )
     @Convert(converter = TokenConverter::class)
     var refreshToken: Token? = null

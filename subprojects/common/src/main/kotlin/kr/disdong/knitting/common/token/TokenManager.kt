@@ -1,6 +1,8 @@
 package kr.disdong.knitting.common.token
 
+import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import io.jsonwebtoken.*
 import kr.disdong.knitting.common.time.Millis
 import org.springframework.beans.factory.annotation.Value
@@ -34,6 +36,34 @@ class TokenManager<T>(
                 .signWith(SignatureAlgorithm.HS256, setSigningKey()) // HS256과 Key 로 Sign
                 .compact()
         )
+    }
+
+    /**
+     * subject 를 가져옵니다.
+     * @return
+     */
+    fun getSubject(token: Token): String {
+        return Jwts.parser()
+            .setSigningKey(DatatypeConverter.parseBase64Binary(secretKey))
+            .parseClaimsJws(token.value).body
+            .subject
+    }
+
+    /**
+     * 커스텀 클레임을 가져옵니다.
+     * sub=subject, iss=babypig.click, exp=1675093709 값은 default 로 존재하므로 제외합니다.
+     * @return
+     */
+    fun <T> getCustomClaims(token: Token, type: TypeReference<T>): T {
+        val claims = Jwts.parser()
+            .setSigningKey(DatatypeConverter.parseBase64Binary(secretKey))
+            .parseClaimsJws(token.value).body
+
+        claims.remove("sub")
+        claims.remove("iss")
+        claims.remove("exp")
+
+        return jacksonObjectMapper().convertValue(claims, type)
     }
 
     /**
