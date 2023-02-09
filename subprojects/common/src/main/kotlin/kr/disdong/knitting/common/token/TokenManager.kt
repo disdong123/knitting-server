@@ -12,7 +12,7 @@ import javax.crypto.spec.SecretKeySpec
 import javax.xml.bind.DatatypeConverter
 
 @Component
-class TokenManager<T>(
+class TokenManager(
     @Value("\${jwt.secret-key}")
     private val secretKey: String,
     private val objectMapper: ObjectMapper,
@@ -25,7 +25,7 @@ class TokenManager<T>(
      * @param payload
      * @return
      */
-    fun create(subject: String, payload: T, expiredTime: Millis): Token {
+    fun <T> create(subject: String, payload: T, expiredTime: Millis): Token {
         return Token(
             Jwts.builder()
                 .setHeader(setHeader())
@@ -79,7 +79,7 @@ class TokenManager<T>(
      * key, value 로 이루어진 claim 들을 설정합니다.
      * @return
      */
-    private fun setCustomClaims(payload: T): MutableMap<String, Any> {
+    private fun <T> setCustomClaims(payload: T): MutableMap<String, Any> {
         return objectMapper
             .convertValue(payload, Map::class.java) as MutableMap<String, Any>
     }

@@ -24,7 +24,7 @@ import org.springframework.transaction.annotation.Transactional
 class AuthKakaoService(
     private val kakaoService: KakaoService,
     private val userRepository: UserRepository,
-    private val tokenManager: TokenManager<AccessTokenClaims>,
+    private val tokenManager: TokenManager,
 ) {
 
     private val logger = logger<AuthKakaoService>()

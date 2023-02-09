@@ -12,8 +12,8 @@ import io.swagger.v3.oas.annotations.media.Schema
 @Schema(description = "login 요청값입니다.")
 class OAuthCallbackResponse(
     val code: String?,
-    val state: String?,
-    val error: String?,
-    val error_description: String?,
+    val state: String? = null,
+    val error: String? = null,
+    val error_description: String? = null,
     val redirectUri: String = "http://127.0.0.1:8080/api/v1/auth/kakao/callback",
 )
