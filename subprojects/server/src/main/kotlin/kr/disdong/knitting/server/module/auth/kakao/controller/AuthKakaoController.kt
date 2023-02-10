@@ -37,7 +37,7 @@ class AuthKakaoController(
      */
     @GetMapping("/callback")
     override fun callback(response: OAuthCallbackResponse): KnittingResponse<LoginResponse> {
-        logger.info("login(response: $response)")
+        logger.info("login(response: $response) ${response.code}")
 
         return KnittingResponse.of(authKakaoService.login(response))
     }

@@ -1,6 +1,9 @@
 package kr.disdong.knitting.auth.kakao.dto
 
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize
+import kr.disdong.knitting.common.token.Token
+import kr.disdong.knitting.common.token.TokenDeserializer
 import java.util.Base64
 
 /**
@@ -10,13 +13,16 @@ data class TokenResponse(
     @JsonProperty("token_type")
     val tokenType: String,
     @JsonProperty("access_token")
-    val accessToken: String,
+    @JsonDeserialize(using = TokenDeserializer::class)
+    val accessToken: Token,
     @JsonProperty("id_token")
-    val idToken: String? = null,
+    @JsonDeserialize(using = TokenDeserializer::class)
+    val idToken: Token? = null,
     @JsonProperty("expires_in")
     val expiresIn: Int,
     @JsonProperty("refresh_token")
-    val refreshToken: String,
+    @JsonDeserialize(using = TokenDeserializer::class)
+    val refreshToken: Token,
     @JsonProperty("refresh_token_expires_in")
     val refreshToken_expires_in: Int,
     @JsonProperty("scope")
@@ -28,7 +34,7 @@ data class TokenResponse(
      * @return
      */
     fun toArrayIdToken(): List<String> {
-        return idToken!!.split(".")
+        return idToken!!.value.split(".")
     }
 
     /**

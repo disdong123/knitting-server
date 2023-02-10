@@ -64,7 +64,7 @@ class AuthKakaoService(
         logger.info("user: $user")
 
         val accessToken = tokenManager.create("user", AccessTokenClaims(user!!.id!!), Millis.HOUR)
-        val refreshToken = Token(response.refreshToken)
+        val refreshToken = response.refreshToken
 
         logger.info("token: ${accessToken.value} ${refreshToken.value}")
 

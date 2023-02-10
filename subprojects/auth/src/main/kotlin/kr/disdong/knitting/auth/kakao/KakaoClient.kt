@@ -54,7 +54,7 @@ class KakaoClient(
         body.add("grant_type", "authorization_code")
         body.add("client_id", CLIENT_ID)
         body.add("redirect_uri", response.redirectUri) // client 에서 받아옵니다.
-        body.add("code", response.code)
+        body.add("code", response.code?.value)
 
         val request = HttpEntity(body, header)
 
