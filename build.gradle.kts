@@ -1,13 +1,10 @@
-
+@Suppress("DSL_SCOPE_VIOLATION")
 plugins {
-    id("org.springframework.boot") apply false
-    id("io.spring.dependency-management") version "1.1.0"
-    kotlin("jvm")
-    kotlin("plugin.spring") apply false
-
-    kotlin("kapt")
-    // ktlint
-    id("org.jlleitschuh.gradle.ktlint") version "11.0.0"
+    alias(libs.plugins.spring.boot) apply false
+    alias(libs.plugins.kotlin.plugin.spring) apply false
+    alias(libs.plugins.kotlin.jvm)
+    alias(libs.plugins.kotlin.kapt)
+    alias(libs.plugins.ktlint)
 }
 
 allprojects {
@@ -19,6 +16,7 @@ allprojects {
 }
 
 subprojects {
+    val libs = rootProject.libs
     apply(plugin = "org.jetbrains.kotlin.jvm")
     apply(plugin = "org.jetbrains.kotlin.plugin.spring")
     apply(plugin = "org.springframework.boot")
@@ -31,16 +29,13 @@ subprojects {
     apply(plugin = "org.jlleitschuh.gradle.ktlint")
 
     dependencies {
-        implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
-        implementation("org.jetbrains.kotlin:kotlin-reflect")
-        implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-        testImplementation("org.springframework.boot:spring-boot-starter-test")
-        implementation("org.springframework.boot:spring-boot-configuration-processor")
-        // https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-starter-webmvc-ui
-        implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2")
+        implementation(libs.kotlin.reflect)
+        implementation(libs.kotlin.stdlib.jdk8)
+        implementation(libs.jackson.module.kotlin)
+        implementation(libs.spring.boot.configuration.processor)
+        implementation(libs.springdoc.openapi.starter.webmvc.ui)
 
-        // 얘때문에 테스트가 안됩니다.......
-        // https://mvnrepository.com/artifact/io.mockk/mockk
+        testImplementation(libs.spring.boot.starter.test)
         testImplementation("io.mockk:mockk:1.13.4")
         testImplementation("com.navercorp.fixturemonkey:fixture-monkey-starter-kotlin:0.4.10")
     }

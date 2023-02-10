@@ -7,16 +7,12 @@ include(
     "subprojects:common"
 )
 
-// https://github.com/gradle/gradle/issues/9830
-pluginManagement {
-    val kotlinVersion: String by settings
-    val springVersion: String by settings
+enableFeaturePreview("VERSION_CATALOGS")
 
-    plugins {
-        id("org.springframework.boot") version springVersion
-        kotlin("jvm") version kotlinVersion
-        kotlin("plugin.spring") version kotlinVersion
-        kotlin("kapt") version kotlinVersion
-        kotlin("plugin.jpa") version kotlinVersion
+dependencyResolutionManagement {
+    versionCatalogs {
+        create("libs") {
+            from(files("libs.version.toml"))
+        }
     }
 }

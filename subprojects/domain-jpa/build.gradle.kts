@@ -1,15 +1,15 @@
+@Suppress("DSL_SCOPE_VIOLATION")
 plugins {
-    kotlin("plugin.jpa")
+    alias(libs.plugins.kotlin.plugin.jpa)
 }
 
 dependencies {
     // TODO. 확인 필요. allOpen 없어도 됩니다.?
-    api("org.springframework.boot:spring-boot-starter-data-jpa")
-    api("com.vladmihalcea:hibernate-types-60:2.20.0")
-    api("com.infobip:infobip-spring-data-jpa-querydsl-boot-starter:8.0.0")
+    api(libs.spring.boot.starter.data.jpa)
+    api(libs.hibernate.types)
+    api(libs.infobip.spring.data.jpa.querydsl.boot.starter)
     kapt("com.querydsl:querydsl-apt:5.0.0:jakarta")
+    runtimeOnly(libs.mysql.connector.java)
 
     implementation(project(":subprojects:common"))
-
-    runtimeOnly("mysql:mysql-connector-java")
 }
