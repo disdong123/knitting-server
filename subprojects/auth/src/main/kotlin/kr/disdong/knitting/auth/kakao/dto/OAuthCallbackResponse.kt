@@ -19,5 +19,5 @@ data class OAuthCallbackResponse(
     val state: String? = null,
     val error: String? = null,
     val error_description: String? = null,
-    val redirectUri: String = "http://127.0.0.1:8080/api/v1/auth/kakao/callback",
+    val redirectUri: String? = null,    // client 에서 kakao 로그인으로 redirect 할 떄 사용됩니다.
 )
