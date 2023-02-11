@@ -68,8 +68,7 @@ class AuthKakaoService(
 
         logger.info("token: ${accessToken.value} ${refreshToken.value}")
 
-        user.userOauthMetadata.accessToken = accessToken
-        user.userOauthMetadata.refreshToken = refreshToken
+        user.setTokens(accessToken, refreshToken)
 
         return user.toLoginResponse(accessToken)
     }

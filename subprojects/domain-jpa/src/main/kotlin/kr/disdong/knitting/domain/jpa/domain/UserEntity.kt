@@ -1,6 +1,7 @@
 package kr.disdong.knitting.domain.jpa.domain
 
 import jakarta.persistence.*
+import kr.disdong.knitting.common.token.Token
 import org.hibernate.annotations.ColumnDefault
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.LastModifiedDate
@@ -44,4 +45,15 @@ data class UserEntity(
     @Column
     @LastModifiedDate
     var updatedAt: LocalDateTime? = LocalDateTime.now(),
-)
+) {
+
+    /**
+     *
+     * @param accessToken
+     * @param refreshToken
+     */
+    fun setTokens(accessToken: Token, refreshToken: Token) {
+        userOauthMetadata.accessToken = accessToken
+        userOauthMetadata.refreshToken = refreshToken
+    }
+}

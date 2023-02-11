@@ -11,7 +11,7 @@ internal class TokenManagerTest {
 
     private val key = "abcde12345"
     @Test
-    fun a() {
+    fun `custom claims 를 넣어서 jwt 를 생성하고, 생성된 토큰에서 claims 를 받아온다`() {
         val tokenManager = TokenManager(key, ObjectMapper())
 
         val token = tokenManager.create("user", User("hankil"), Millis.HOUR)

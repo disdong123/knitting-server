@@ -19,5 +19,10 @@ data class OAuthCallbackResponse(
     val state: String? = null,
     val error: String? = null,
     val error_description: String? = null,
-    val redirectUri: String? = null,    // client 에서 kakao 로그인으로 redirect 할 떄 사용됩니다.
-)
+    val redirectUri: String? = null, // client 에서 kakao 로그인으로 redirect 할 떄 사용됩니다.
+) {
+
+    fun isAccessDenied(): Boolean {
+        return this.error == "access_denied"
+    }
+}

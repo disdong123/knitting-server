@@ -1,32 +1,38 @@
 package kr.disdong.knitting.common.dto
 
-import kr.disdong.knitting.common.exception.HandlerExceptionType
+import kr.disdong.knitting.common.exception.KnittingException
 import org.springframework.http.HttpStatus
 
 class KnittingResponse<T>(
-    val status: String,
     val code: Int,
     val data: T? = null,
     val message: String? = null
 ) {
     companion object {
         fun <T> of(
-            exception: Exception
+            exception: KnittingException
         ): KnittingResponse<T> {
-            val standardThrowableType = HandlerExceptionType.of(exception)
             return KnittingResponse(
-                status = standardThrowableType.status,
-                code = standardThrowableType.code.value(),
-                message = exception.message ?: standardThrowableType.message,
+                code = exception.getCode(),
+                message = exception.message,
             )
         }
 
         fun <T> of(
-            content: T? = null
+            content: T? = null,
         ): KnittingResponse<T> {
             return KnittingResponse(
-                status = "ok",
                 code = HttpStatus.OK.value(),
+                data = content
+            )
+        }
+
+        fun <T> of(
+            code: HttpStatus,
+            content: T? = null,
+        ): KnittingResponse<T> {
+            return KnittingResponse(
+                code = code.value(),
                 data = content
             )
         }

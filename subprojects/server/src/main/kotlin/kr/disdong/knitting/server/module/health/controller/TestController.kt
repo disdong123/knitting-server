@@ -1,6 +1,7 @@
 package kr.disdong.knitting.server.module.health.controller
 
 import io.swagger.v3.oas.annotations.Operation
+import io.swagger.v3.oas.annotations.Parameter
 import io.swagger.v3.oas.annotations.tags.Tag
 import kr.disdong.knitting.auth.kakao.dto.AccessTokenClaims
 import kr.disdong.knitting.server.common.annotation.AuthGuard
@@ -25,7 +26,11 @@ class TestController {
     @GetMapping("/health/auth")
     @AuthGuard
     @Operation(summary = "인증 테스트 api")
-    fun authHealth(@CurrentUserClaims value: AccessTokenClaims?): String {
+    fun authHealth(
+        @CurrentUserClaims
+        @Parameter(name = "value", hidden = true)
+        value: AccessTokenClaims?
+    ): String {
         return "knitting server! 워니쨩: $value"
     }
 }

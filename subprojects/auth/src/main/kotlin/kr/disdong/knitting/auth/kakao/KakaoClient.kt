@@ -1,10 +1,10 @@
 package kr.disdong.knitting.auth.kakao
 
-import com.fasterxml.jackson.annotation.JsonProperty
 import jakarta.servlet.http.HttpServletResponse
 import kr.disdong.knitting.auth.common.exception.GetTokenFailedException
 import kr.disdong.knitting.auth.kakao.dto.LogoutResponse
 import kr.disdong.knitting.auth.kakao.dto.OAuthCallbackResponse
+import kr.disdong.knitting.auth.kakao.dto.RefreshAccessTokenResponse
 import kr.disdong.knitting.auth.kakao.dto.TokenResponse
 import kr.disdong.knitting.common.token.Token
 import org.springframework.beans.factory.annotation.Value
@@ -44,19 +44,8 @@ class KakaoClient(
      * @param response
      */
     @Throws(GetTokenFailedException::class)
-    fun getToken(response: OAuthCallbackResponse): TokenResponse {
-        val header = HttpHeaders()
-
-        header.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8")
-
-        // TODO dto 를 사용할 수 있는지 확인 필요.
-        val body: MultiValueMap<String, String> = LinkedMultiValueMap()
-        body.add("grant_type", "authorization_code")
-        body.add("client_id", CLIENT_ID)
-        body.add("redirect_uri", response.redirectUri ?: REDIRECT_URI) // client 에서 받아옵니다.
-        body.add("code", response.code?.value)
-
-        val request = HttpEntity(body, header)
+    fun getTokenWithAuthCode(response: OAuthCallbackResponse): TokenResponse {
+        val request = makeGetTokenRequest(response)
 
         return restTemplate
             .exchange("$kauthUrl/token", HttpMethod.POST, request, TokenResponse::class.java)
@@ -68,13 +57,8 @@ class KakaoClient(
      * 사용자 액세스 토큰과 리프레시 토큰을 모두 만료시킵니다.
      * @param accessToken
      */
-    fun logout(accessToken: String): ResponseEntity<LogoutResponse> {
-        val header = HttpHeaders()
-
-        header.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8")
-        header.add("Authorization", "Bearer $accessToken")
-
-        val request = HttpEntity<Object>(header)
+    fun logout(accessToken: Token): ResponseEntity<LogoutResponse> {
+        val request = makeLogoutRequest(accessToken)
 
         return restTemplate.exchange("https://kapi.kakao.com/v1/user/logout", HttpMethod.POST, request, LogoutResponse::class.java)
     }
@@ -84,6 +68,38 @@ class KakaoClient(
      * @param refreshToken
      */
     fun refreshAccessToken(refreshToken: Token): RefreshAccessTokenResponse {
+        val request = makeRefreshAccessTokenRequest(refreshToken)
+
+        return restTemplate
+            .exchange("$kauthUrl/token", HttpMethod.POST, request, RefreshAccessTokenResponse::class.java)
+            .body!!
+    }
+
+    private fun makeGetTokenRequest(response: OAuthCallbackResponse): HttpEntity<MultiValueMap<String, String>> {
+        val header = HttpHeaders()
+
+        header.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8")
+
+        // TODO dto 를 사용할 수 있는지 확인 필요.
+        val body: MultiValueMap<String, String> = LinkedMultiValueMap()
+        body.add("grant_type", "authorization_code")
+        body.add("client_id", CLIENT_ID)
+        body.add("redirect_uri", response.redirectUri ?: REDIRECT_URI) // client 에서 받아옵니다.
+        body.add("code", response.code?.value)
+
+        return HttpEntity(body, header)
+    }
+
+    private fun makeLogoutRequest(accessToken: Token): HttpEntity<Object> {
+        val header = HttpHeaders()
+
+        header.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8")
+        header.add("Authorization", "Bearer ${accessToken.value}")
+
+        return HttpEntity<Object>(header)
+    }
+
+    private fun makeRefreshAccessTokenRequest(refreshToken: Token): HttpEntity<MultiValueMap<String, String>> {
         val header = HttpHeaders()
 
         header.add("Content-type", "application/x-www-form-urlencoded")
@@ -94,28 +110,10 @@ class KakaoClient(
         body.add("client_id", CLIENT_ID)
         body.add("refresh_token", refreshToken.value) // client 에서 받아옵니다.
 
-        val request = HttpEntity(body, header)
-
-        return restTemplate
-            .exchange("$kauthUrl/token", HttpMethod.POST, request, RefreshAccessTokenResponse::class.java)
-            .body!!
+        return HttpEntity(body, header)
     }
 }
 
-class RefreshAccessTokenResponse(
-    @JsonProperty("token_type")
-    val tokenType: String,
-    @JsonProperty("access_token")
-    val accessToken: Token,
-    @JsonProperty("id_token")
-    val idToken: String?,
-    @JsonProperty("expires_in")
-    val expiresIn: Int,
-    @JsonProperty("refresh_token")
-    val refreshToken: Token?,
-    @JsonProperty("refresh_token_expires_in")
-    val refreshTokenExpiresIn: Int?,
-)
 // /**
 //  * https://developers.kakao.com/docs/latest/ko/kakaologin/rest-api#refresh-token-response
 //  * @property token_type

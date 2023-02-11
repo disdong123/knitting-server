@@ -6,7 +6,6 @@ import com.fasterxml.jackson.databind.deser.std.StdDeserializer
 
 class TokenDeserializer : StdDeserializer<Token?>(Token::class.java) {
     override fun deserialize(p: JsonParser, ctxt: DeserializationContext): Token? {
-        println("??? ${p.text}")
         if (p.text == null) {
             return null
         }

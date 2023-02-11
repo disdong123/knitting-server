@@ -34,20 +34,57 @@ class AuthInterceptor : HandlerInterceptor {
             logger.info("preHandle $auth")
             auth ?: return true
         } catch (err: RuntimeException) {
+            logger.debug("AuthGuard 어노테이션이 없는 경우에는 true 를 반환합니다.")
             return true
         }
 
         val authorization = request.getHeader("Authorization")
 
-        logger.info("authorization: $authorization")
+        val token = validateAuthorization(authorization)
 
+        if (token.isPhone()) {
+            val user = userRepository.findByPhone(token.value) ?: throw InvalidAccessTokenException(token)
+
+            setCustomClaimsOnRequest(request, AccessTokenClaims(user.id!!))
+
+            return true
+        }
+
+        val claims = authKakaoService.verifyAccessToken(token)
+
+        logger.info("claims: $claims")
+
+        setCustomClaimsOnRequest(request, claims)
+
+        return true
+    }
+
+    /**
+     * TODO.
+     *  setAttribute 로 custom claims 값을 저장합니다.
+     *  Request 차이 확인. scope 는 뭐지??
+     * @param request
+     * @param claims
+     */
+    private fun setCustomClaimsOnRequest(request: HttpServletRequest, claims: AccessTokenClaims) {
+        ServletWebRequest(request).setAttribute("AccessTokenClaims", claims, 0)
+    }
+
+    /**
+     * 정상적인 헤더값인지 확인한 후, 토큰을 반환합니다.
+     * @param authorization
+     * @return
+     */
+    private fun validateAuthorization(authorization: String?): Token {
         if (authorization == null) {
+            logger.debug("토큰이 제공되지 않았습니다.")
             throw InvalidAccessTokenException()
         }
 
         val tokens = authorization.split(" ")
 
         if (tokens.size < 2) {
+            logger.debug("토큰이 제공되지 않았습니다.")
             throw InvalidAccessTokenException()
         }
 
@@ -56,23 +93,6 @@ class AuthInterceptor : HandlerInterceptor {
             throw InvalidAccessTokenException()
         }
 
-        val token = tokens[1]
-
-        if (token.startsWith("010")) {
-            val user = userRepository.findByPhone(token) ?: throw InvalidAccessTokenException(Token(token))
-
-            ServletWebRequest(request).setAttribute("AccessTokenClaims", AccessTokenClaims(user.id!!), 0)
-
-            return true
-        }
-
-        val claims = authKakaoService.verifyAccessToken(Token(token))
-
-        logger.info("claims: $claims")
-
-        // TODO. Request 차이. scope??
-        ServletWebRequest(request).setAttribute("AccessTokenClaims", claims, 0)
-
-        return true
+        return Token(tokens[1])
     }
 }
