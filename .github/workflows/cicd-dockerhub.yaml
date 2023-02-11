@@ -1,4 +1,4 @@
-name: ci
+name: ci-cd
 
 on:
   push:
@@ -35,6 +35,9 @@ jobs:
 
       #
       - name: Build with Gradle
+        env:
+          DISDONG_USERNAME: ${{ secrets.DISDONG_USERNAME }}
+          DISDONG_TOKEN: ${{ secrets.DISDONG_TOKEN }}
         run: ./gradlew clean build -x test
 
       - name: Set up QEMU
