@@ -38,9 +38,14 @@ class AuthInterceptor : HandlerInterceptor {
             return true
         }
 
-        val authorization = request.getHeader("Authorization")
+        var authorization = request.getHeader("Authorization")
 
-        val token = validateAuthorization(authorization)
+        // TODO 테스트용입니다.
+        // if (authorization == null) {
+        //     authorization = "Bearer 01038249970"
+        // }
+
+        val token = validateAuthorizationHeader(authorization)
 
         if (token.isPhone()) {
             val user = userRepository.findByPhone(token.value) ?: throw InvalidAccessTokenException(token)
@@ -75,7 +80,7 @@ class AuthInterceptor : HandlerInterceptor {
      * @param authorization
      * @return
      */
-    private fun validateAuthorization(authorization: String?): Token {
+    private fun validateAuthorizationHeader(authorization: String?): Token {
         if (authorization == null) {
             logger.debug("토큰이 제공되지 않았습니다.")
             throw InvalidAccessTokenException()

@@ -2,10 +2,12 @@ package kr.disdong.knitting.server.module.auth.kakao.controller
 
 import jakarta.servlet.http.HttpServletResponse
 import kr.disdong.knitting.auth.kakao.KakaoService
+import kr.disdong.knitting.auth.kakao.dto.AccessTokenClaims
 import kr.disdong.knitting.auth.kakao.dto.OAuthCallbackResponse
 import kr.disdong.knitting.common.dto.KnittingResponse
 import kr.disdong.knitting.common.logger.logger
-import kr.disdong.knitting.common.token.Token
+import kr.disdong.knitting.server.common.annotation.AuthGuard
+import kr.disdong.knitting.server.common.annotation.CurrentUserClaims
 import kr.disdong.knitting.server.module.auth.kakao.controller.spec.AuthKakaoControllerSpec
 import kr.disdong.knitting.server.module.auth.kakao.dto.LoginResponse
 import kr.disdong.knitting.server.module.auth.kakao.service.AuthKakaoService
@@ -25,10 +27,10 @@ class AuthKakaoController(
      * @param httpServletResponse
      */
     @GetMapping("/login")
-    fun login(httpServletResponse: HttpServletResponse) {
+    fun login(httpServletResponse: HttpServletResponse): KnittingResponse<Unit> {
         logger.info("login()")
-
         kakaoService.login(httpServletResponse)
+        return KnittingResponse.of()
     }
 
     /**
@@ -38,19 +40,34 @@ class AuthKakaoController(
     @GetMapping("/callback")
     override fun callback(response: OAuthCallbackResponse): KnittingResponse<LoginResponse> {
         logger.info("login(response: $response) ${response.code}")
-
         return KnittingResponse.of(authKakaoService.login(response))
     }
 
     /**
-     * TODO header 로 변경해야합니다.
+     * 브라우저와 kakao 와의 세션을 완전히 끊을 수도 있습니다.
+     * TODO 카카오로 요청보낼때 유저의 어떠한 값도 보내지 않는데, 다른 유저는 로그아웃 안되는지 확인 필요.
+     * @param httpServletResponse
+     */
+    @GetMapping("/logout-with-kakao")
+    @AuthGuard
+    fun logoutWithKakao(
+        httpServletResponse: HttpServletResponse,
+        @CurrentUserClaims claims: AccessTokenClaims,
+    ): KnittingResponse<Unit> {
+        logger.info("logout(claims: $claims)")
+        kakaoService.logoutWithKakao(httpServletResponse, claims)
+        return KnittingResponse.of()
+    }
+
+    /**
      *
-     * @param token
+     * @param state user id 값입니다. logout-with-kakao 에서 넘겨준 state 를 받습니다.
      * @return
      */
-    @GetMapping("/logout")
-    fun logout(@RequestParam token: Token) {
-        println(token.value)
-        // return kakaoService.logout(token)
+    @GetMapping("/logout/callback")
+    fun logoutCallback(state: Long): KnittingResponse<Unit> {
+        logger.info("logoutCallback(state: $state}")
+        authKakaoService.logout(state)
+        return KnittingResponse.of()
     }
 }

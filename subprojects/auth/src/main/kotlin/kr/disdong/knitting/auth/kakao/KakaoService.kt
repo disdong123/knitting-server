@@ -2,6 +2,7 @@ package kr.disdong.knitting.auth.kakao
 
 import jakarta.servlet.http.HttpServletResponse
 import kr.disdong.knitting.auth.common.exception.AuthorizationCodeAccessDeniedException
+import kr.disdong.knitting.auth.kakao.dto.AccessTokenClaims
 import kr.disdong.knitting.auth.kakao.dto.LogoutResponse
 import kr.disdong.knitting.auth.kakao.dto.OAuthCallbackResponse
 import kr.disdong.knitting.auth.kakao.dto.RefreshAccessTokenResponse
@@ -62,5 +63,14 @@ class KakaoService(
      */
     fun refreshAccessToken(refreshToken: Token): RefreshAccessTokenResponse {
         return kakaoClient.refreshAccessToken(refreshToken)
+    }
+
+    /**
+     *
+     * @param httpServletResponse
+     * @param claims
+     */
+    fun logoutWithKakao(httpServletResponse: HttpServletResponse, claims: AccessTokenClaims) {
+        kakaoClient.logoutWithKakao(httpServletResponse, claims)
     }
 }

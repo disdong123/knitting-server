@@ -90,6 +90,7 @@ jobs:
               -e SPRING_DATASOURCE_PASSWORD=${{ secrets.SPRING_DATASOURCE_PASSWORD }} \
               -e KAKAO_OAUTH_V1_REDIRECT_URI=${{ secrets.KAKAO_OAUTH_V1_REDIRECT_URI }} \
               -e KAKAO_OAUTH_V1_CLIENT_ID=${{ secrets.KAKAO_OAUTH_V1_CLIENT_ID }} \
+              -e KAKAO_OAUTH_V1_LOGOUT_REDIRECT_URI=${{ secrets.KAKAO_OAUTH_V1_LOGOUT_REDIRECT_URI }} \
               -e KAKAO_OAUTH_V2_REDIRECT_URI=${{ secrets.KAKAO_OAUTH_V2_REDIRECT_URI }} \
               -e KAKAO_OAUTH_V2_CLIENT_ID=${{ secrets.KAKAO_OAUTH_V2_CLIENT_ID }} \
               -e JWT_SECRETKEY=${{ secrets.JWT_SECRETKEY }} \

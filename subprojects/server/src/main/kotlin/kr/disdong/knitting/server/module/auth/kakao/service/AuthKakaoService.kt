@@ -16,6 +16,7 @@ import kr.disdong.knitting.domain.jpa.domain.UserEntity
 import kr.disdong.knitting.domain.jpa.domain.UserOauthMetadataEntity
 import kr.disdong.knitting.domain.jpa.repository.UserRepository
 import kr.disdong.knitting.server.module.auth.kakao.dto.LoginResponse
+import kr.disdong.knitting.server.module.auth.kakao.exception.UserNotFoundException
 import kr.disdong.knitting.server.module.auth.kakao.extension.toLoginResponse
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -43,11 +44,6 @@ class AuthKakaoService(
 
         var user = userRepository.findByIdAndType(idToken.sub, OauthType.KAKAO)
 
-        /**
-         * TODO.
-         *  1. 최초 로그인한 회원이면 일단 데이터 저장하고 반환해준다.
-         *      토큰은 다음 요청에서 닉네임을 발게 되면 그때 완전한 회원가입을 했다고 생각하고 토큰을 준다.
-         */
         if (user == null) {
             val userOauthMetadata = UserOauthMetadataEntity(
                 id = idToken.sub,
@@ -63,6 +59,7 @@ class AuthKakaoService(
 
         logger.info("user: $user")
 
+        // 카카오에서 받은 access token 은 사용하지 않습니다.
         val accessToken = tokenManager.create("user", AccessTokenClaims(user!!.id!!), Millis.HOUR)
         val refreshToken = response.refreshToken
 
@@ -101,5 +98,15 @@ class AuthKakaoService(
 
             throw e
         }
+    }
+
+    /**
+     * 카카오로 부터 리다이렉트되면 유저가 가지고 있는 토큰을 모두 삭제합니다.
+     * @param id
+     */
+    @Transactional
+    fun logout(id: Long) {
+        val user = userRepository.findByUserId(id) ?: throw UserNotFoundException(id)
+        user.removeTokens()
     }
 }

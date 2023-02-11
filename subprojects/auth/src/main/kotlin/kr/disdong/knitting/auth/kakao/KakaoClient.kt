@@ -1,7 +1,7 @@
 package kr.disdong.knitting.auth.kakao
 
 import jakarta.servlet.http.HttpServletResponse
-import kr.disdong.knitting.auth.common.exception.GetTokenFailedException
+import kr.disdong.knitting.auth.kakao.dto.AccessTokenClaims
 import kr.disdong.knitting.auth.kakao.dto.LogoutResponse
 import kr.disdong.knitting.auth.kakao.dto.OAuthCallbackResponse
 import kr.disdong.knitting.auth.kakao.dto.RefreshAccessTokenResponse
@@ -19,9 +19,10 @@ import org.springframework.web.client.RestTemplate
 
 @Component
 class KakaoClient(
-    // v2 는 client 에서 카카오 페이지를 띄웁니다. 따라서 클라이언트에게 받습니다.
     @Value("\${kakao.oauth.v1.redirect.uri}")
     private val REDIRECT_URI: String,
+    @Value("\${kakao.oauth.v1.logout.redirect.uri}")
+    private val LOGOUT_REDIRECT_URI: String,
     @Value("\${kakao.oauth.v1.client.id}")
     private val CLIENT_ID: String,
 ) {
@@ -43,7 +44,6 @@ class KakaoClient(
      * code 를 이용하여 access token 을 가져옵니다.
      * @param response
      */
-    @Throws(GetTokenFailedException::class)
     fun getTokenWithAuthCode(response: OAuthCallbackResponse): TokenResponse {
         val request = makeGetTokenRequest(response)
 
@@ -59,8 +59,15 @@ class KakaoClient(
      */
     fun logout(accessToken: Token): ResponseEntity<LogoutResponse> {
         val request = makeLogoutRequest(accessToken)
-
         return restTemplate.exchange("https://kapi.kakao.com/v1/user/logout", HttpMethod.POST, request, LogoutResponse::class.java)
+    }
+
+    /**
+     *
+     * @param httpServletResponse
+     */
+    fun logoutWithKakao(httpServletResponse: HttpServletResponse, claims: AccessTokenClaims) {
+        httpServletResponse.sendRedirect("$kauthUrl/logout?client_id=$CLIENT_ID&logout_redirect_uri=$LOGOUT_REDIRECT_URI&state=${claims.id}")
     }
 
     /**

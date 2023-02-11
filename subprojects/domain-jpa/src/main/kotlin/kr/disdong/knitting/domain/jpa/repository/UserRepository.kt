@@ -15,6 +15,7 @@ interface UserRepositoryCustom {
 
     fun findByAccessToken(token: Token): UserEntity?
     fun findByPhone(token: String): UserEntity?
+    fun findByUserId(id: Long): UserEntity?
 }
 
 class UserRepositoryImpl(
@@ -50,6 +51,15 @@ class UserRepositoryImpl(
             .selectFrom(userEntity)
             .where(
                 userEntity.phone.eq(phone)
+            )
+            .fetchOne()
+    }
+
+    override fun findByUserId(id: Long): UserEntity? {
+        return jpaQueryFactory
+            .selectFrom(userEntity)
+            .where(
+                userEntity.id.eq(id)
             )
             .fetchOne()
     }
