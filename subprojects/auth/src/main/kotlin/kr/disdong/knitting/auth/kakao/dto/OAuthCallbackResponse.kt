@@ -1,7 +1,6 @@
 package kr.disdong.knitting.auth.kakao.dto
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
-import io.swagger.v3.oas.annotations.media.Schema
 import kr.disdong.knitting.common.token.Token
 import kr.disdong.knitting.common.token.TokenDeserializer
 
@@ -12,7 +11,7 @@ import kr.disdong.knitting.common.token.TokenDeserializer
  * @property error
  * @property error_description
  */
-@Schema(description = "login 요청값입니다.")
+// @Schema(description = "login 요청값입니다.")
 data class OAuthCallbackResponse(
     @JsonDeserialize(using = TokenDeserializer::class)
     val code: Token?,

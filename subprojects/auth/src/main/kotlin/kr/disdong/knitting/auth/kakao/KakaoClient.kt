@@ -27,6 +27,9 @@ class KakaoClient(
     private val CLIENT_ID: String,
 ) {
 
+    // TODO.
+    //  https://developers.kakao.com/docs/latest/ko/kakaologin/trouble-shooting
+    //  예외처리 필요.
     private val kauthUrl = "https://kauth.kakao.com/oauth"
     private val kapiUrl = "https://kapi.kakao.com/v1"
 

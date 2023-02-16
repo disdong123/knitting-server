@@ -24,7 +24,7 @@ data class TokenResponse(
     @JsonDeserialize(using = TokenDeserializer::class)
     val refreshToken: Token,
     @JsonProperty("refresh_token_expires_in")
-    val refreshToken_expires_in: Int,
+    val refreshTokenExpiresIn: Int,
     @JsonProperty("scope")
     val scope: String? = null, // openId 인경우 openid 포함
 ) {

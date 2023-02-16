@@ -8,3 +8,7 @@ Content-Type: application/json
 {
   "title": "hello"
 }
+
+###
+https://knitting-api.babypig.click/api/v1/auth/kakao/logout-with-kakao
+Authentication: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6Mywic3ViIjoic3ViamVjdCIsImlzcyI6ImJhYnlwaWcuY2xpY2siLCJleHAiOjE2NzYxMTEzNDR9.wiqXSMEFhgphaauTTWDykSX_YxKeGQCW37uCN0edPdc

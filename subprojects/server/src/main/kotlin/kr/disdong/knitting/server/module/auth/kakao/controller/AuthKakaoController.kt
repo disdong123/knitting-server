@@ -8,7 +8,7 @@ import kr.disdong.knitting.common.dto.KnittingResponse
 import kr.disdong.knitting.common.logger.logger
 import kr.disdong.knitting.server.common.annotation.AuthGuard
 import kr.disdong.knitting.server.common.annotation.CurrentUserClaims
-import kr.disdong.knitting.server.module.auth.kakao.controller.spec.AuthKakaoControllerSpec
+import kr.disdong.knitting.server.module.auth.kakao.controller.spec.AuthKakaoSpec
 import kr.disdong.knitting.server.module.auth.kakao.dto.LoginResponse
 import kr.disdong.knitting.server.module.auth.kakao.service.AuthKakaoService
 import org.springframework.web.bind.annotation.*
@@ -18,12 +18,13 @@ import org.springframework.web.bind.annotation.*
 class AuthKakaoController(
     private val authKakaoService: AuthKakaoService,
     private val kakaoService: KakaoService,
-) : AuthKakaoControllerSpec {
+) : AuthKakaoSpec {
 
     private val logger = logger<AuthKakaoController>()
 
     /**
      * kakao 로그인 페이지로 리다이렉트합니다.
+     * 서버 테스트용으로, 클라이언트에서 할 수도 있습니다.
      * @param httpServletResponse
      */
     @GetMapping("/login")
@@ -45,10 +46,10 @@ class AuthKakaoController(
 
     /**
      * 브라우저와 kakao 와의 세션을 완전히 끊을 수도 있습니다.
-     * TODO 카카오로 요청보낼때 유저의 어떠한 값도 보내지 않는데, 다른 유저는 로그아웃 안되는지 확인 필요.
+     * 서버 테스트용으로, 클라이언트에서 할 수도 있습니다.
      * @param httpServletResponse
      */
-    @GetMapping("/logout-with-kakao")
+    @GetMapping("/logout")
     @AuthGuard
     fun logoutWithKakao(
         httpServletResponse: HttpServletResponse,
