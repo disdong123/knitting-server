@@ -82,8 +82,8 @@ jobs:
             rm -f init.sh
             touch init.sh
 
-            echo docker kill knitting >> init.sh
-            echo docker rm knitting >> init.sh
+            echo "docker kill knitting 2>/dev/null" >> init.sh
+            echo "docker rm knitting 2>/dev/null" >> init.sh
             echo docker run --name knitting --rm -d -p 80:8080 \
               -v /home/ubuntu:/usr/bin/app/keys \
               -e SPRING_DATASOURCE_URL=${{ secrets.SPRING_DATASOURCE_URL }} \
@@ -95,7 +95,7 @@ jobs:
               -e KAKAO_OAUTH_V2_REDIRECT_URI=${{ secrets.KAKAO_OAUTH_V2_REDIRECT_URI }} \
               -e KAKAO_OAUTH_V2_CLIENT_ID=${{ secrets.KAKAO_OAUTH_V2_CLIENT_ID }} \
               -e JWT_SECRETKEY=${{ secrets.JWT_SECRETKEY }} \
-              -e GOOGLE_APPLICATION_CREDENTIALS=/usr/bin/app/keys/credential.json
+              -e GOOGLE_APPLICATION_CREDENTIALS=/usr/bin/app/keys/credential.json \
               ${{ secrets.DOCKERHUB_USER }}/knitting-server:${{ env.IMAGE_TAG }} >> init.sh
 
             bash init.sh
