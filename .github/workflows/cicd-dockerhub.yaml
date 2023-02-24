@@ -96,6 +96,7 @@ jobs:
               -e KAKAO_OAUTH_V2_CLIENT_ID=${{ secrets.KAKAO_OAUTH_V2_CLIENT_ID }} \
               -e JWT_SECRETKEY=${{ secrets.JWT_SECRETKEY }} \
               -e GOOGLE_APPLICATION_CREDENTIALS=/usr/bin/app/keys/credential.json \
+              --log-driver=syslog \
               ${{ secrets.DOCKERHUB_USER }}/knitting-server:${{ env.IMAGE_TAG }} >> init.sh
 
             bash init.sh
