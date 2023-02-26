@@ -11,5 +11,5 @@ dependencies {
     kapt("com.querydsl:querydsl-apt:5.0.0:jakarta")
     runtimeOnly(libs.mysql.connector.java)
 
-    implementation(project(":subprojects:common"))
+    implementation(project(":knitting-common"))
 }

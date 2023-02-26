@@ -1,10 +1,10 @@
 rootProject.name = "knitting-server"
 
 include(
-    "subprojects:server",
-    "subprojects:domain-jpa",
-    "subprojects:auth",
-    "subprojects:common"
+    "knitting-server",
+    "knitting-domain-jpa",
+    "knitting-auth",
+    "knitting-common"
 )
 
 enableFeaturePreview("VERSION_CATALOGS")

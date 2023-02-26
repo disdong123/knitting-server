@@ -57,7 +57,7 @@ jobs:
         with:
           push: true
           tags: ${{ secrets.DOCKERHUB_USER }}/knitting-server:${{ env.IMAGE_TAG }}
-          context: ./subprojects/server
+          context: ./knitting-server
 
   cd:
     needs: ci

@@ -2,9 +2,9 @@ dependencies {
     implementation(libs.spring.boot.starter.web)
     implementation(libs.spring.boot.starter.validation)
 
-    implementation(project(":subprojects:domain-jpa"))
-    implementation(project(":subprojects:auth"))
-    implementation(project(":subprojects:common"))
+    implementation(project(":knitting-domain-jpa"))
+    implementation(project(":knitting-auth"))
+    implementation(project(":knitting-common"))
 }
 
 tasks.getByName("bootJar") {
