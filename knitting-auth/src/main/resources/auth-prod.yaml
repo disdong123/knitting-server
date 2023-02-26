@@ -17,5 +17,5 @@ kakao:
 spring:
   config:
     import:
-      - mysql.yaml
-      - common.yaml
+      - mysql-prod.yaml
+      - common-prod.yaml
