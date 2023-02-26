@@ -3,7 +3,7 @@ name: ci-cd-auth
 on:
   push:
     branches:
-      - main
+      - test
 
 # TODO
 permissions:

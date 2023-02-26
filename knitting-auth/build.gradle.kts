@@ -7,10 +7,10 @@ dependencies {
     implementation(project(":knitting-mysql"))
 }
 
-tasks.getByName("bootJar") {
-    enabled = true
-}
-
-tasks.getByName("jar") {
-    enabled = false
-}
+// tasks.getByName("bootJar") {
+//     enabled = true
+// }
+//
+// tasks.getByName("jar") {
+//     enabled = false
+// }

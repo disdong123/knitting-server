@@ -3,7 +3,7 @@ name: ci-cd-gateway
 on:
   push:
     branches:
-      - main
+      - test
 
 # TODO
 permissions:

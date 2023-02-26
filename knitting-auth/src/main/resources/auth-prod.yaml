@@ -19,12 +19,3 @@ spring:
     import:
       - mysql.yaml
       - common.yaml
-
-server:
-  port: 8082
-  servlet:
-    contextPath: /api
-
-springdoc:
-  swagger-ui:
-    path: /docs

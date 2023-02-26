@@ -1,4 +1,4 @@
-package kr.disdong.knitting.auth.kakao.spec
+package kr.disdong.knitting.server.module.auth.controller.spec
 
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.Parameter

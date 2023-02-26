@@ -84,13 +84,16 @@ jobs:
 
             echo "docker kill knitting-server 2>/dev/null" >> server.sh
             echo "docker rm knitting-server 2>/dev/null" >> server.sh
-            echo "docker kill knitting 2>/dev/null" >> server.sh
-            echo "docker rm knitting 2>/dev/null" >> server.sh
-            echo docker run --name knitting --rm -d -p 80:8080 \
+            echo docker run --name knitting-server --rm -d -p 80:8080 \
               -v /home/ubuntu:/usr/bin/app/keys \
               -e SPRING_DATASOURCE_URL=${{ secrets.SPRING_DATASOURCE_URL }} \
               -e SPRING_DATASOURCE_USERNAME=${{ secrets.SPRING_DATASOURCE_USERNAME }} \
               -e SPRING_DATASOURCE_PASSWORD=${{ secrets.SPRING_DATASOURCE_PASSWORD }} \
+              -e KAKAO_OAUTH_V1_REDIRECT_URI=${{ secrets.KAKAO_OAUTH_V1_REDIRECT_URI }} \
+              -e KAKAO_OAUTH_V1_CLIENT_ID=${{ secrets.KAKAO_OAUTH_V1_CLIENT_ID }} \
+              -e KAKAO_OAUTH_V1_LOGOUT_REDIRECT_URI=${{ secrets.KAKAO_OAUTH_V1_LOGOUT_REDIRECT_URI }} \
+              -e KAKAO_OAUTH_V2_REDIRECT_URI=${{ secrets.KAKAO_OAUTH_V2_REDIRECT_URI }} \
+              -e KAKAO_OAUTH_V2_CLIENT_ID=${{ secrets.KAKAO_OAUTH_V2_CLIENT_ID }} \
               -e JWT_SECRETKEY=${{ secrets.JWT_SECRETKEY }} \
               -e GOOGLE_APPLICATION_CREDENTIALS=/usr/bin/app/keys/credential.json \
               --log-driver=syslog \
