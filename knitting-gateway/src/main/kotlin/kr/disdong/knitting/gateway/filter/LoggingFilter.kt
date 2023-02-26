@@ -25,11 +25,13 @@ class LoggingFilter :
             if (config.preLogger) {
                 logger.info("Logging PRE Filter: request id -> {}", request.id)
             }
-            chain.filter(exchange).then<Void>(Mono.fromRunnable<Void> {
-                if (config.postLogger) {
-                    logger.info("Logging POST Filter: response code -> {}", response.statusCode)
+            chain.filter(exchange).then(
+                Mono.fromRunnable {
+                    if (config.postLogger) {
+                        logger.info("Logging POST Filter: response code -> {}", response.statusCode)
+                    }
                 }
-            })
+            )
         }, Ordered.LOWEST_PRECEDENCE)
     }
 

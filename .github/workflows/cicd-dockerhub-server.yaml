@@ -79,11 +79,13 @@ jobs:
 
             docker pull ${{ secrets.DOCKERHUB_USER }}/knitting-server:${{ env.IMAGE_TAG }}
 
-            rm -f init.sh
-            touch init.sh
+            rm -f server.sh
+            touch server.sh
 
-            echo "docker kill knitting-server 2>/dev/null" >> init.sh
-            echo "docker rm knitting-server 2>/dev/null" >> init.sh
+            echo "docker kill knitting-server 2>/dev/null" >> server.sh
+            echo "docker rm knitting-server 2>/dev/null" >> server.sh
+            echo "docker kill knitting 2>/dev/null" >> server.sh
+            echo "docker rm knitting 2>/dev/null" >> server.sh
             echo docker run --name knitting --rm -d -p 80:8080 \
               -v /home/ubuntu:/usr/bin/app/keys \
               -e SPRING_DATASOURCE_URL=${{ secrets.SPRING_DATASOURCE_URL }} \
@@ -92,6 +94,6 @@ jobs:
               -e JWT_SECRETKEY=${{ secrets.JWT_SECRETKEY }} \
               -e GOOGLE_APPLICATION_CREDENTIALS=/usr/bin/app/keys/credential.json \
               --log-driver=syslog \
-              ${{ secrets.DOCKERHUB_USER }}/knitting-server:${{ env.IMAGE_TAG }} >> init.sh
+              ${{ secrets.DOCKERHUB_USER }}/knitting-server:${{ env.IMAGE_TAG }} >> server.sh
 
-            bash init.sh
+            bash server.sh

@@ -16,3 +16,11 @@ dependencies {
     // implementation("io.netty:netty-resolver-dns-native-macos:4.1.89.Final")
     runtimeOnly("io.netty:netty-resolver-dns-native-macos:4.1.76.Final:osx-aarch_64")
 }
+
+tasks.getByName("bootJar") {
+    enabled = true
+}
+
+tasks.getByName("jar") {
+    enabled = false
+}

@@ -10,7 +10,7 @@ import org.springframework.web.server.ServerWebExchange
 import reactor.core.publisher.Mono
 
 @Component
-class CustomFilter : AbstractGatewayFilterFactory<CustomFilter.Config>(Config::class.java) {
+class TestFilter : AbstractGatewayFilterFactory<TestFilter.Config>(Config::class.java) {
     override fun apply(config: Config): GatewayFilter {
         println("?")
         // Custom Pre Filter
@@ -18,9 +18,11 @@ class CustomFilter : AbstractGatewayFilterFactory<CustomFilter.Config>(Config::c
             println("??")
             val request: ServerHttpRequest = exchange.request
             val response: ServerHttpResponse = exchange.response
-            chain.filter(exchange).then(Mono.fromRunnable {
-                println("???")
-            })
+            chain.filter(exchange).then(
+                Mono.fromRunnable {
+                    println("???")
+                }
+            )
         }
     }
 

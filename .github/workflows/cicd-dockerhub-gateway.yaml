@@ -1,4 +1,4 @@
-name: ci-cd-auth
+name: ci-cd-gateway
 
 on:
   push:
@@ -56,8 +56,8 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           push: true
-          tags: ${{ secrets.DOCKERHUB_USER }}/knitting-auth:${{ env.IMAGE_TAG }}
-          context: ./knitting-auth
+          tags: ${{ secrets.DOCKERHUB_USER }}/knitting-gateway:${{ env.IMAGE_TAG }}
+          context: ./knitting-gateway
 
   cd:
     needs: ci
@@ -77,14 +77,14 @@ jobs:
 
             docker image prune -af
 
-            docker pull ${{ secrets.DOCKERHUB_USER }}/knitting-auth:${{ env.IMAGE_TAG }}
+            docker pull ${{ secrets.DOCKERHUB_USER }}/knitting-gateway:${{ env.IMAGE_TAG }}
 
-            rm -f auth.sh
-            touch auth.sh
+            rm -f gateway.sh
+            touch gateway.sh
 
-            echo "docker kill knitting-auth 2>/dev/null" >> auth.sh
-            echo "docker rm knitting-auth 2>/dev/null" >> auth.sh
-            echo docker run --name knitting-auth --rm -d -p 82:8082 \
+            echo "docker kill knitting-gateway 2>/dev/null" >> gateway.sh
+            echo "docker rm knitting-gateway 2>/dev/null" >> gateway.sh
+            echo docker run --name knitting-gateway --rm -d -p 82:8082 \
               -v /home/ubuntu:/usr/bin/app/keys \
               -e SPRING_DATASOURCE_URL=${{ secrets.SPRING_DATASOURCE_URL }} \
               -e SPRING_DATASOURCE_USERNAME=${{ secrets.SPRING_DATASOURCE_USERNAME }} \
@@ -97,6 +97,6 @@ jobs:
               -e JWT_SECRETKEY=${{ secrets.JWT_SECRETKEY }} \
               -e GOOGLE_APPLICATION_CREDENTIALS=/usr/bin/app/keys/credential.json \
               --log-driver=syslog \
-              ${{ secrets.DOCKERHUB_USER }}/knitting-auth:${{ env.IMAGE_TAG }} >> auth.sh
+              ${{ secrets.DOCKERHUB_USER }}/knitting-gateway:${{ env.IMAGE_TAG }} >> gateway.sh
 
-            bash auth.sh
+            bash gateway.sh
