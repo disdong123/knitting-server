@@ -1,4 +1,4 @@
-package kr.disdong.knitting.server.module.auth.kakao.dto
+package kr.disdong.knitting.auth.kakao.dto
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize
 import io.swagger.v3.oas.annotations.media.Schema

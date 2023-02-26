@@ -3,9 +3,9 @@ package kr.disdong.knitting.server.module.auth.kakao.controller.spec
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.Parameter
 import io.swagger.v3.oas.annotations.tags.Tag
+import kr.disdong.knitting.auth.kakao.dto.LoginResponse
 import kr.disdong.knitting.auth.kakao.dto.OAuthCallbackResponse
 import kr.disdong.knitting.common.dto.KnittingResponse
-import kr.disdong.knitting.server.module.auth.kakao.dto.LoginResponse
 
 @Tag(name = "인증", description = "인증용 api 입니다.")
 interface AuthKakaoSpec {

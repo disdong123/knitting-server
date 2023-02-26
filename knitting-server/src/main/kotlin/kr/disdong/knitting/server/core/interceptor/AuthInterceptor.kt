@@ -3,12 +3,12 @@ package kr.disdong.knitting.server.core.interceptor
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import kr.disdong.knitting.auth.common.exception.InvalidAccessTokenException
+import kr.disdong.knitting.auth.kakao.KakaoService
 import kr.disdong.knitting.auth.kakao.dto.AccessTokenClaims
 import kr.disdong.knitting.common.logger.logger
 import kr.disdong.knitting.common.token.Token
 import kr.disdong.knitting.domain.jpa.repository.UserRepository
 import kr.disdong.knitting.server.common.annotation.AuthGuard
-import kr.disdong.knitting.server.module.auth.kakao.service.AuthKakaoService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 import org.springframework.web.context.request.ServletWebRequest
@@ -22,7 +22,7 @@ class AuthInterceptor : HandlerInterceptor {
     private val logger = logger<AuthInterceptor>()
 
     @Autowired
-    private lateinit var authKakaoService: AuthKakaoService
+    private lateinit var authKakaoService: KakaoService
 
     @Autowired
     private lateinit var userRepository: UserRepository

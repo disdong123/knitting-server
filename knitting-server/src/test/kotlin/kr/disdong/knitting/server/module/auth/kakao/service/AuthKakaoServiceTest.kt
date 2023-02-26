@@ -2,6 +2,7 @@ package kr.disdong.knitting.server.module.auth.kakao.service
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import io.mockk.mockk
+import kr.disdong.knitting.auth.kakao.KakaoClient
 import kr.disdong.knitting.auth.kakao.KakaoService
 import kr.disdong.knitting.common.token.TokenManager
 import kr.disdong.knitting.domain.jpa.repository.UserRepository
@@ -9,13 +10,13 @@ import org.junit.jupiter.api.Nested
 
 internal class AuthKakaoServiceTest {
 
-    private var kakaoService: KakaoService = mockk()
+    private var kakaoClient: KakaoClient = mockk()
 
     private var userRepository: UserRepository = mockk()
 
     private var tokenManager: TokenManager = TokenManager("123", ObjectMapper())
 
-    val sut = AuthKakaoService(kakaoService, userRepository, tokenManager)
+    val sut = KakaoService(kakaoClient, userRepository, tokenManager)
 
     @Nested
     inner class T1 {

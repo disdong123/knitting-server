@@ -3,20 +3,18 @@ package kr.disdong.knitting.server.module.auth.kakao.controller
 import jakarta.servlet.http.HttpServletResponse
 import kr.disdong.knitting.auth.kakao.KakaoService
 import kr.disdong.knitting.auth.kakao.dto.AccessTokenClaims
+import kr.disdong.knitting.auth.kakao.dto.LoginResponse
 import kr.disdong.knitting.auth.kakao.dto.OAuthCallbackResponse
 import kr.disdong.knitting.common.dto.KnittingResponse
 import kr.disdong.knitting.common.logger.logger
 import kr.disdong.knitting.server.common.annotation.AuthGuard
 import kr.disdong.knitting.server.common.annotation.CurrentUserClaims
 import kr.disdong.knitting.server.module.auth.kakao.controller.spec.AuthKakaoSpec
-import kr.disdong.knitting.server.module.auth.kakao.dto.LoginResponse
-import kr.disdong.knitting.server.module.auth.kakao.service.AuthKakaoService
 import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/v1/auth/kakao")
 class AuthKakaoController(
-    private val authKakaoService: AuthKakaoService,
     private val kakaoService: KakaoService,
 ) : AuthKakaoSpec {
 
@@ -41,7 +39,7 @@ class AuthKakaoController(
     @GetMapping("/callback")
     override fun callback(response: OAuthCallbackResponse): KnittingResponse<LoginResponse> {
         logger.info("login(response: $response) ${response.code}")
-        return KnittingResponse.of(authKakaoService.login(response))
+        return KnittingResponse.of(kakaoService.callback(response))
     }
 
     /**
@@ -68,7 +66,7 @@ class AuthKakaoController(
     @GetMapping("/logout/callback")
     fun logoutCallback(state: Long): KnittingResponse<Unit> {
         logger.info("logoutCallback(state: $state}")
-        authKakaoService.logout(state)
+        kakaoService.logout(state)
         return KnittingResponse.of()
     }
 }

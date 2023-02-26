@@ -1,4 +1,4 @@
-package kr.disdong.knitting.server.module.auth.kakao.exception
+package kr.disdong.knitting.auth.kakao.exception
 
 import kr.disdong.knitting.common.exception.KnittingException
 
