@@ -1,7 +1,7 @@
-package kr.disdong.knitting.server.core.config
+package kr.disdong.knitting.auth.core.config
 
-import kr.disdong.knitting.server.core.interceptor.AuthInterceptor
-import kr.disdong.knitting.server.core.resolver.CurrentUserResolver
+import kr.disdong.knitting.auth.core.interceptor.AuthInterceptor
+import kr.disdong.knitting.auth.core.resolver.CurrentUserResolver
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Configuration
 import org.springframework.web.method.support.HandlerMethodArgumentResolver

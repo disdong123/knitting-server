@@ -1,14 +1,14 @@
-package kr.disdong.knitting.server.core.interceptor
+package kr.disdong.knitting.auth.core.interceptor
 
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import kr.disdong.knitting.auth.common.exception.InvalidAccessTokenException
 import kr.disdong.knitting.auth.kakao.KakaoService
 import kr.disdong.knitting.auth.kakao.dto.AccessTokenClaims
+import kr.disdong.knitting.common.annotation.AuthGuard
 import kr.disdong.knitting.common.logger.logger
 import kr.disdong.knitting.common.token.Token
 import kr.disdong.knitting.mysql.repository.UserRepository
-import kr.disdong.knitting.server.common.annotation.AuthGuard
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 import org.springframework.web.context.request.ServletWebRequest

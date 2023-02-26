@@ -1,0 +1,30 @@
+kakao:
+  oauth:
+    v1:
+      redirect:
+        uri:
+      client:
+        id:
+      logout:
+        redirect:
+          uri:
+    v2:
+      redirect:
+        uri:
+      client:
+        id:
+
+spring:
+  config:
+    import:
+      - mysql.yaml
+      - common.yaml
+
+server:
+  port: 8082
+  servlet:
+    contextPath: /api
+
+springdoc:
+  swagger-ui:
+    path: /docs

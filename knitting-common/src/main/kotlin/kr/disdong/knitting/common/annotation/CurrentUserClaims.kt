@@ -1,4 +1,4 @@
-package kr.disdong.knitting.server.common.annotation
+package kr.disdong.knitting.common.annotation
 
 import java.lang.annotation.ElementType
 import java.lang.annotation.Retention

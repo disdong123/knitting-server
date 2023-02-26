@@ -1,24 +1,23 @@
-package kr.disdong.knitting.server.module.auth.kakao.controller
+package kr.disdong.knitting.auth.kakao
 
 import jakarta.servlet.http.HttpServletResponse
-import kr.disdong.knitting.auth.kakao.KakaoService
 import kr.disdong.knitting.auth.kakao.dto.AccessTokenClaims
 import kr.disdong.knitting.auth.kakao.dto.LoginResponse
 import kr.disdong.knitting.auth.kakao.dto.OAuthCallbackResponse
+import kr.disdong.knitting.auth.kakao.spec.KakaoSpec
+import kr.disdong.knitting.common.annotation.AuthGuard
+import kr.disdong.knitting.common.annotation.CurrentUserClaims
 import kr.disdong.knitting.common.dto.KnittingResponse
 import kr.disdong.knitting.common.logger.logger
-import kr.disdong.knitting.server.common.annotation.AuthGuard
-import kr.disdong.knitting.server.common.annotation.CurrentUserClaims
-import kr.disdong.knitting.server.module.auth.kakao.controller.spec.AuthKakaoSpec
 import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/v1/auth/kakao")
-class AuthKakaoController(
+class KakaoController(
     private val kakaoService: KakaoService,
-) : AuthKakaoSpec {
+) : KakaoSpec {
 
-    private val logger = logger<AuthKakaoController>()
+    private val logger = logger<KakaoController>()
 
     /**
      * kakao 로그인 페이지로 리다이렉트합니다.

@@ -1,7 +1,7 @@
-package kr.disdong.knitting.server.core.resolver
+package kr.disdong.knitting.auth.core.resolver
 
 import kr.disdong.knitting.auth.kakao.dto.AccessTokenClaims
-import kr.disdong.knitting.server.common.annotation.CurrentUserClaims
+import kr.disdong.knitting.common.annotation.CurrentUserClaims
 import org.springframework.core.MethodParameter
 import org.springframework.stereotype.Component
 import org.springframework.web.bind.support.WebDataBinderFactory

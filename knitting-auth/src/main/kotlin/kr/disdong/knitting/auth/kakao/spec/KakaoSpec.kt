@@ -1,4 +1,4 @@
-package kr.disdong.knitting.server.module.auth.kakao.controller.spec
+package kr.disdong.knitting.auth.kakao.spec
 
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.Parameter
@@ -8,7 +8,7 @@ import kr.disdong.knitting.auth.kakao.dto.OAuthCallbackResponse
 import kr.disdong.knitting.common.dto.KnittingResponse
 
 @Tag(name = "인증", description = "인증용 api 입니다.")
-interface AuthKakaoSpec {
+interface KakaoSpec {
 
     @Operation(
         summary = "카카오 로그인 후, redirect 되는 api",

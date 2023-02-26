@@ -1,11 +1,7 @@
 package kr.disdong.knitting.server.module.health.controller
 
 import io.swagger.v3.oas.annotations.Operation
-import io.swagger.v3.oas.annotations.Parameter
 import io.swagger.v3.oas.annotations.tags.Tag
-import kr.disdong.knitting.auth.kakao.dto.AccessTokenClaims
-import kr.disdong.knitting.server.common.annotation.AuthGuard
-import kr.disdong.knitting.server.common.annotation.CurrentUserClaims
 import org.slf4j.LoggerFactory
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
@@ -23,14 +19,14 @@ class TestController {
         return "knitting server! 워니쨩"
     }
 
-    @GetMapping("/health/auth")
-    @AuthGuard
-    @Operation(summary = "인증 테스트 api")
-    fun authHealth(
-        @CurrentUserClaims
-        @Parameter(name = "value", hidden = true)
-        value: AccessTokenClaims?
-    ): String {
-        return "knitting server! 워니쨩: $value"
-    }
+    // @GetMapping("/health/auth")
+    // @AuthGuard
+    // @Operation(summary = "인증 테스트 api")
+    // fun authHealth(
+    //     @CurrentUserClaims
+    //     @Parameter(name = "value", hidden = true)
+    //     value: AccessTokenClaims?
+    // ): String {
+    //     return "knitting server! 워니쨩: $value"
+    // }
 }

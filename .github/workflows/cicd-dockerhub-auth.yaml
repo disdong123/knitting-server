@@ -1,4 +1,4 @@
-name: ci-cd
+name: ci-cd-auth
 
 on:
   push:
@@ -56,8 +56,8 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           push: true
-          tags: ${{ secrets.DOCKERHUB_USER }}/knitting-server:${{ env.IMAGE_TAG }}
-          context: ./knitting-server
+          tags: ${{ secrets.DOCKERHUB_USER }}/knitting-auth:${{ env.IMAGE_TAG }}
+          context: ./knitting-auth
 
   cd:
     needs: ci
@@ -77,14 +77,14 @@ jobs:
 
             docker image prune -af
 
-            docker pull ${{ secrets.DOCKERHUB_USER }}/knitting-server:${{ env.IMAGE_TAG }}
+            docker pull ${{ secrets.DOCKERHUB_USER }}/knitting-auth:${{ env.IMAGE_TAG }}
 
             rm -f init.sh
             touch init.sh
 
-            echo "docker kill knitting 2>/dev/null" >> init.sh
-            echo "docker rm knitting 2>/dev/null" >> init.sh
-            echo docker run --name knitting --rm -d -p 80:8080 \
+            echo "docker kill knitting-auth 2>/dev/null" >> init.sh
+            echo "docker rm knitting-auth 2>/dev/null" >> init.sh
+            echo docker run --name knitting-auth --rm -d -p 82:8082 \
               -v /home/ubuntu:/usr/bin/app/keys \
               -e SPRING_DATASOURCE_URL=${{ secrets.SPRING_DATASOURCE_URL }} \
               -e SPRING_DATASOURCE_USERNAME=${{ secrets.SPRING_DATASOURCE_USERNAME }} \
@@ -97,6 +97,6 @@ jobs:
               -e JWT_SECRETKEY=${{ secrets.JWT_SECRETKEY }} \
               -e GOOGLE_APPLICATION_CREDENTIALS=/usr/bin/app/keys/credential.json \
               --log-driver=syslog \
-              ${{ secrets.DOCKERHUB_USER }}/knitting-server:${{ env.IMAGE_TAG }} >> init.sh
+              ${{ secrets.DOCKERHUB_USER }}/knitting-auth:${{ env.IMAGE_TAG }} >> init.sh
 
             bash init.sh
