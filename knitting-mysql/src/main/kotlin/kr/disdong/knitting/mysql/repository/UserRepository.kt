@@ -1,11 +1,11 @@
-package kr.disdong.knitting.domain.jpa.repository
+package kr.disdong.knitting.mysql.repository
 
 import com.querydsl.jpa.impl.JPAQueryFactory
 import kr.disdong.knitting.common.token.Token
-import kr.disdong.knitting.domain.jpa.domain.OauthType
-import kr.disdong.knitting.domain.jpa.domain.QUserEntity
-import kr.disdong.knitting.domain.jpa.domain.QUserOauthMetadataEntity
-import kr.disdong.knitting.domain.jpa.domain.UserEntity
+import kr.disdong.knitting.mysql.domain.OauthType
+import kr.disdong.knitting.mysql.domain.QUserEntity
+import kr.disdong.knitting.mysql.domain.QUserOauthMetadataEntity
+import kr.disdong.knitting.mysql.domain.UserEntity
 import org.springframework.data.jpa.repository.JpaRepository
 
 interface UserRepository : JpaRepository<UserEntity, Long>, UserRepositoryCustom

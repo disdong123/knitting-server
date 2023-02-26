@@ -7,7 +7,7 @@ import kr.disdong.knitting.auth.kakao.KakaoService
 import kr.disdong.knitting.auth.kakao.dto.AccessTokenClaims
 import kr.disdong.knitting.common.logger.logger
 import kr.disdong.knitting.common.token.Token
-import kr.disdong.knitting.domain.jpa.repository.UserRepository
+import kr.disdong.knitting.mysql.repository.UserRepository
 import kr.disdong.knitting.server.common.annotation.AuthGuard
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component

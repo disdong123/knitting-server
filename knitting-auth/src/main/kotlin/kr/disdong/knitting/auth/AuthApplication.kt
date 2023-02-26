@@ -1,10 +1,10 @@
 package kr.disdong.knitting.auth
 
 import kr.disdong.knitting.common.CommonApplication
-import kr.disdong.knitting.domain.jpa.DomainJpaApplication
+import kr.disdong.knitting.mysql.MysqlApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.context.annotation.Import
 
-@Import(DomainJpaApplication::class, CommonApplication::class)
+@Import(MysqlApplication::class, CommonApplication::class)
 @SpringBootApplication
 class AuthApplication

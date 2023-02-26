@@ -5,7 +5,7 @@ import io.mockk.mockk
 import kr.disdong.knitting.auth.kakao.KakaoClient
 import kr.disdong.knitting.auth.kakao.KakaoService
 import kr.disdong.knitting.common.token.TokenManager
-import kr.disdong.knitting.domain.jpa.repository.UserRepository
+import kr.disdong.knitting.mysql.repository.UserRepository
 import org.junit.jupiter.api.Nested
 
 internal class AuthKakaoServiceTest {

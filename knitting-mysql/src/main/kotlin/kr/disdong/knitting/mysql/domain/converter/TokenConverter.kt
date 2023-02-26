@@ -1,4 +1,4 @@
-package kr.disdong.knitting.domain.jpa.domain.converter
+package kr.disdong.knitting.mysql.domain.converter
 
 import jakarta.persistence.AttributeConverter
 import jakarta.persistence.Converter

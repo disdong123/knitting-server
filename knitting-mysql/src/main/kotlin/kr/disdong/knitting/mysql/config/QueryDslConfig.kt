@@ -1,4 +1,4 @@
-package kr.disdong.knitting.domain.jpa.config
+package kr.disdong.knitting.mysql.config
 
 import com.querydsl.jpa.impl.JPAQueryFactory
 import jakarta.persistence.EntityManager

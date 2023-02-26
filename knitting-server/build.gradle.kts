@@ -2,7 +2,7 @@ dependencies {
     implementation(libs.spring.boot.starter.web)
     implementation(libs.spring.boot.starter.validation)
 
-    implementation(project(":knitting-domain-jpa"))
+    implementation(project(":knitting-mysql"))
     implementation(project(":knitting-auth"))
     implementation(project(":knitting-common"))
 }

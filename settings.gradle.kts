@@ -2,7 +2,7 @@ rootProject.name = "knitting-server"
 
 include(
     "knitting-server",
-    "knitting-domain-jpa",
+    "knitting-mysql",
     "knitting-auth",
     "knitting-common"
 )

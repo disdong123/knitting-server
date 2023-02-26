@@ -1,6 +1,6 @@
-package kr.disdong.knitting.domain.jpa
+package kr.disdong.knitting.mysql
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 
 @SpringBootApplication
-class DomainJpaApplication
+class MysqlApplication

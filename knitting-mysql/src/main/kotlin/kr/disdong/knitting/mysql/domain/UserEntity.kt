@@ -1,4 +1,4 @@
-package kr.disdong.knitting.domain.jpa.domain
+package kr.disdong.knitting.mysql.domain
 
 import jakarta.persistence.*
 import kr.disdong.knitting.common.token.Token
