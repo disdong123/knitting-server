@@ -2,7 +2,7 @@ package kr.disdong.knitting.auth.kakao.extension
 
 import kr.disdong.knitting.auth.kakao.dto.LoginResponse
 import kr.disdong.knitting.common.token.Token
-import kr.disdong.knitting.mysql.domain.UserEntity
+import kr.disdong.knitting.mysql.domain.user.model.UserEntity
 
 fun UserEntity.toLoginResponse(accessToken: Token): LoginResponse {
     return LoginResponse(

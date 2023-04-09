@@ -8,5 +8,6 @@ spring:
     database: mysql
     database-platform: org.hibernate.dialect.MySQL8Dialect
     generate-ddl: true
+    show-sql: false
     hibernate:
       ddl-auto: update

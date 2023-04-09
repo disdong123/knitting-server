@@ -16,10 +16,10 @@ import kr.disdong.knitting.common.logger.logger
 import kr.disdong.knitting.common.time.Millis
 import kr.disdong.knitting.common.token.Token
 import kr.disdong.knitting.common.token.TokenManager
-import kr.disdong.knitting.mysql.domain.OauthType
-import kr.disdong.knitting.mysql.domain.UserEntity
-import kr.disdong.knitting.mysql.domain.UserOauthMetadataEntity
-import kr.disdong.knitting.mysql.repository.UserRepository
+import kr.disdong.knitting.mysql.domain.user.model.OauthType
+import kr.disdong.knitting.mysql.domain.user.model.UserEntity
+import kr.disdong.knitting.mysql.domain.user.model.UserOauthMetadataEntity
+import kr.disdong.knitting.mysql.domain.user.repository.UserRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 

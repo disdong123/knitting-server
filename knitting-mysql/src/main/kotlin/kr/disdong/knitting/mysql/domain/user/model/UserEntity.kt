@@ -1,17 +1,14 @@
-package kr.disdong.knitting.mysql.domain
+package kr.disdong.knitting.mysql.domain.user.model
 
 import jakarta.persistence.*
 import kr.disdong.knitting.common.token.Token
-import org.hibernate.annotations.ColumnDefault
-import org.springframework.data.annotation.CreatedDate
-import org.springframework.data.annotation.LastModifiedDate
-import java.time.LocalDateTime
+import kr.disdong.knitting.mysql.common.model.BaseEntity
 
 @Entity(name = "user")
 data class UserEntity(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id: Long? = null,
+    var id: Long = 0,
 
     @OneToOne(mappedBy = "user", cascade = [CascadeType.PERSIST])
     var userOauthMetadata: UserOauthMetadataEntity,
@@ -29,23 +26,7 @@ data class UserEntity(
         length = 20,
     )
     var phone: String? = null,
-
-    @Column
-    @ColumnDefault("true")
-    var isUsed: Boolean? = true,
-
-    @Column
-    @ColumnDefault("false")
-    var isDeleted: Boolean? = false,
-
-    @Column
-    @CreatedDate
-    var createdAt: LocalDateTime? = LocalDateTime.now(),
-
-    @Column
-    @LastModifiedDate
-    var updatedAt: LocalDateTime? = LocalDateTime.now(),
-) {
+) : BaseEntity() {
 
     /**
      * 로그인 시, 유저의 토큰을 저장합니다.

@@ -1,8 +1,8 @@
-package kr.disdong.knitting.mysql.domain
+package kr.disdong.knitting.mysql.domain.user.model
 
 import jakarta.persistence.*
 import kr.disdong.knitting.common.token.Token
-import kr.disdong.knitting.mysql.domain.converter.TokenConverter
+import kr.disdong.knitting.mysql.domain.user.converter.TokenConverter
 import org.hibernate.annotations.Comment
 
 enum class OauthType(val value: String) {
