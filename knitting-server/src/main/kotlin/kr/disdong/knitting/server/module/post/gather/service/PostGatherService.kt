@@ -11,6 +11,7 @@ import kr.disdong.knitting.server.common.dto.PageParam
 import kr.disdong.knitting.server.common.dto.PagedList
 import kr.disdong.knitting.server.module.post.gather.dto.CreatePostGatherBody
 import kr.disdong.knitting.server.module.post.gather.dto.PostGather
+import kr.disdong.knitting.server.module.post.gather.exception.PostGatherNotFoundException
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -33,6 +34,13 @@ class PostGatherService(
             total = entities.size,
             PostGather.of(entities)
         )
+    }
+
+    @Transactional(readOnly = true)
+    fun getById(id: Long): PostGather {
+        val entity = postGatherRepository.findWithPostById(id) ?: throw PostGatherNotFoundException(id)
+
+        return PostGather.of(entity)
     }
 
     @Transactional

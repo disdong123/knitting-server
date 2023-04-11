@@ -5,7 +5,8 @@ include(
     "knitting-mysql",
     "knitting-auth",
     "knitting-gateway",
-    "knitting-common"
+    "knitting-common",
+    "knitting-storage"
 )
 
 enableFeaturePreview("VERSION_CATALOGS")

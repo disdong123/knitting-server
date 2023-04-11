@@ -40,4 +40,11 @@ interface PostGatherSpec {
         @CurrentUserClaims claims: AccessTokenClaims,
         body: CreatePostGatherBody,
     ): PostGather
+
+    @Operation(
+        summary = "함뜨 게시글 상세조회",
+    )
+    fun getById(
+        id: Long
+    ): PostGather
 }

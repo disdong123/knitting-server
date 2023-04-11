@@ -21,8 +21,15 @@ class PostGatherController(
 ) : PostGatherSpec {
 
     @GetMapping
+    @AuthGuard
     override fun list(pageParam: PageParam): PagedList<PostGather> {
         return postGatherService.list(pageParam)
+    }
+
+    @GetMapping("{id}")
+    @AuthGuard
+    override fun getById(id: Long): PostGather {
+        return postGatherService.getById(id)
     }
 
     @PostMapping

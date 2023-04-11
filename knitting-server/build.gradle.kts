@@ -5,6 +5,7 @@ dependencies {
     implementation(project(":knitting-auth"))
     implementation(project(":knitting-mysql"))
     implementation(project(":knitting-common"))
+    implementation(project(":knitting-storage"))
 }
 
 tasks.getByName("bootJar") {

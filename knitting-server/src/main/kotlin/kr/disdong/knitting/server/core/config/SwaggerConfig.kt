@@ -29,6 +29,7 @@ class SwaggerConfig {
                 "AccessToken",
                 SecurityScheme()
                     .name("AccessToken")
+                    .description("Access Token 혹은 휴대폰번호를 입력하면 됩니다.")
                     .type(SecurityScheme.Type.HTTP)
                     .scheme("bearer")
                     .bearerFormat("JWT")
