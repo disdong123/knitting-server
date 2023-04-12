@@ -4,6 +4,7 @@ spring:
       - auth-prod.yaml
       - mysql-prod.yaml
       - common-prod.yaml
+      - storage-prod.yaml
 
 server:
   port: 8080

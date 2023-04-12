@@ -96,6 +96,8 @@ jobs:
               -e KAKAO_OAUTH_V2_CLIENT_ID=${{ secrets.KAKAO_OAUTH_V2_CLIENT_ID }} \
               -e JWT_SECRETKEY=${{ secrets.JWT_SECRETKEY }} \
               -e GOOGLE_APPLICATION_CREDENTIALS=/usr/bin/app/keys/credential.json \
+              -e CLOUD_S3_ACCESSKEY=${{ secrets.CLOUD_S3_ACCESSKEY }} \
+              -e CLOUD_S3_SECRETKEY=${{ secrets.CLOUD_S3_SECRETKEY }} \
               --log-driver=syslog \
               ${{ secrets.DOCKERHUB_USER }}/knitting-server:${{ env.IMAGE_TAG }} >> server.sh
 

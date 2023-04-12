@@ -42,6 +42,7 @@ mysql.yaml
 application.yaml
 auth.yaml
 common.yaml
+storage.yaml
 
 #
 .credentials.json

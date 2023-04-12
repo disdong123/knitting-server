@@ -1,0 +1,18 @@
+# multipart 설정
+spring:
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+
+# aws 설정
+# 사용할 S3 bucket region 입력
+cloud:
+  aws:
+    region: static=ap-northeast-2
+    stack:
+      auto: false
+  s3:
+    bucket: knitting-storage
+    access-key:
+    secret-key:
