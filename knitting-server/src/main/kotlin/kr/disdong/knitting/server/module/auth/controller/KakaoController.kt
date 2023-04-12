@@ -26,7 +26,7 @@ class KakaoController(
      * @param httpServletResponse
      */
     @GetMapping("/login")
-    fun login(httpServletResponse: HttpServletResponse): KnittingResponse<Unit> {
+    override fun login(httpServletResponse: HttpServletResponse): KnittingResponse<Unit> {
         logger.info("login()")
         kakaoService.login(httpServletResponse)
         return KnittingResponse.of()
@@ -49,7 +49,7 @@ class KakaoController(
      */
     @GetMapping("/logout")
     @AuthGuard
-    fun logoutWithKakao(
+    override fun logoutWithKakao(
         httpServletResponse: HttpServletResponse,
         @CurrentUserClaims claims: AccessTokenClaims,
     ): KnittingResponse<Unit> {
@@ -64,7 +64,7 @@ class KakaoController(
      * @return
      */
     @GetMapping("/logout/callback")
-    fun logoutCallback(state: Long): KnittingResponse<Unit> {
+    override fun logoutCallback(state: Long): KnittingResponse<Unit> {
         logger.info("logoutCallback(state: $state}")
         kakaoService.logout(state)
         return KnittingResponse.of()

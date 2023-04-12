@@ -1,6 +1,7 @@
 package kr.disdong.knitting.server.module.storage.spec
 
 import io.swagger.v3.oas.annotations.Operation
+import io.swagger.v3.oas.annotations.Parameter
 import io.swagger.v3.oas.annotations.tags.Tag
 import kr.disdong.knitting.auth.kakao.dto.AccessTokenClaims
 import kr.disdong.knitting.common.annotation.CurrentUserClaims
@@ -23,6 +24,7 @@ interface FileSpec {
         // ],
     )
     fun upload(
+        @Parameter(hidden = true)
         @CurrentUserClaims claims: AccessTokenClaims,
         @RequestPart("file") file: MultipartFile,
     ): FileResponse
@@ -30,12 +32,18 @@ interface FileSpec {
     @Operation(
         summary = "단건 파일 조회 api",
     )
-    fun getById(id: Long): FileResponse
+    fun getById(
+        @Parameter(hidden = true)
+        @CurrentUserClaims claims: AccessTokenClaims,
+        id: Long,
+    ): FileResponse
 
     @Operation(
         summary = "다건 파일 조회 api",
     )
     fun getByIds(
+        @Parameter(hidden = true)
+        @CurrentUserClaims claims: AccessTokenClaims,
         @RequestParam(value = "ids") ids: List<Long>
     ): List<FileResponse>
 }

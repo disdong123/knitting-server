@@ -31,15 +31,20 @@ class FileController(
     }
 
     @GetMapping
+    @AuthGuard
     override fun getByIds(
+        @CurrentUserClaims claims: AccessTokenClaims,
         @RequestParam(value = "ids") ids: List<Long>
     ): List<FileResponse> {
-        println(ids)
-        return fileService.getByIds(ids)
+        return fileService.getByIds(claims.id, ids)
     }
 
     @GetMapping("{id}")
-    override fun getById(id: Long): FileResponse {
-        return fileService.getById(id)
+    @AuthGuard
+    override fun getById(
+        @CurrentUserClaims claims: AccessTokenClaims,
+        id: Long
+    ): FileResponse {
+        return fileService.getById(claims.id, id)
     }
 }

@@ -47,17 +47,15 @@ class FileService(
     }
 
     @Transactional(readOnly = true)
-    fun getById(id: Long): FileResponse {
-        val entity = fileRepository.findById(id).orElseThrow {
-            throw FileNotFoundException(id)
-        }
+    fun getById(userId: Long, id: Long): FileResponse {
+        val entity = fileRepository.findByIdAndUserId(id, userId) ?: throw FileNotFoundException(id)
 
         return FileResponse.from(entity)
     }
 
     @Transactional(readOnly = true)
-    fun getByIds(ids: List<Long>): List<FileResponse> {
-        val entities = fileRepository.findAllById(ids)
+    fun getByIds(userId: Long, ids: List<Long>): List<FileResponse> {
+        val entities = fileRepository.findAllByIdsAndUserId(ids, userId)
 
         logger.info("entities: ${entities.size}")
 

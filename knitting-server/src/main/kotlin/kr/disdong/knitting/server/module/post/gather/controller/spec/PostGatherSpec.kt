@@ -37,7 +37,9 @@ interface PostGatherSpec {
         summary = "함뜨 게시글 생성",
     )
     fun create(
-        @CurrentUserClaims claims: AccessTokenClaims,
+        @Parameter(hidden = true)
+        @CurrentUserClaims
+        claims: AccessTokenClaims,
         body: CreatePostGatherBody,
     ): PostGather
 
