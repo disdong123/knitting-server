@@ -34,9 +34,9 @@ class FileController(
     @AuthGuard
     override fun getByIds(
         @CurrentUserClaims claims: AccessTokenClaims,
-        @RequestParam(value = "ids") ids: List<Long>
+        @RequestParam(value = "ids") ids: String
     ): List<FileResponse> {
-        return fileService.getByIds(claims.id, ids)
+        return fileService.getByIds(claims.id, ids.split(",").map { it.toLong() })
     }
 
     @GetMapping("{id}")

@@ -25,8 +25,10 @@ interface FileSpec {
     )
     fun upload(
         @Parameter(hidden = true)
-        @CurrentUserClaims claims: AccessTokenClaims,
-        @RequestPart("file") file: MultipartFile,
+        @CurrentUserClaims
+        claims: AccessTokenClaims,
+        @RequestPart("file")
+        file: MultipartFile,
     ): FileResponse
 
     @Operation(
@@ -34,7 +36,8 @@ interface FileSpec {
     )
     fun getById(
         @Parameter(hidden = true)
-        @CurrentUserClaims claims: AccessTokenClaims,
+        @CurrentUserClaims
+        claims: AccessTokenClaims,
         id: Long,
     ): FileResponse
 
@@ -43,7 +46,10 @@ interface FileSpec {
     )
     fun getByIds(
         @Parameter(hidden = true)
-        @CurrentUserClaims claims: AccessTokenClaims,
-        @RequestParam(value = "ids") ids: List<Long>
+        @CurrentUserClaims
+        claims: AccessTokenClaims,
+        @Parameter(example = "1,2,3", description = "파일 id 목록")
+        @RequestParam(value = "ids")
+        ids: String
     ): List<FileResponse>
 }
