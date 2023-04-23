@@ -8,8 +8,8 @@ import kr.disdong.knitting.common.logger.logger
 import kr.disdong.knitting.server.module.post.gather.controller.spec.PostUserLikeSpec
 import kr.disdong.knitting.server.module.post.gather.service.PostUserLikeService
 import org.springframework.http.HttpStatus
-import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
 
@@ -20,7 +20,7 @@ class PostUserLikeController(
 
     private val logger = logger<PostUserLikeController>()
 
-    @PatchMapping("/posts/{postId}/like")
+    @PostMapping("/posts/{postId}/like")
     @AuthGuard
     @ResponseStatus(HttpStatus.CREATED)
     override fun like(
