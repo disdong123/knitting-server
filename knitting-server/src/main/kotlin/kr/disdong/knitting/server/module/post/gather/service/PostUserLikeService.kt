@@ -21,7 +21,7 @@ class PostUserLikeService(
 
     @Transactional
     fun like(userId: Long, postId: Long): Long? {
-        logger.info("increase(userId: $userId, postId: $postId)")
+        logger.info("like(userId: $userId, postId: $postId)")
 
         val userEntity = userRepository.findByUserId(userId)
             ?: throw UserNotFoundException(userId)

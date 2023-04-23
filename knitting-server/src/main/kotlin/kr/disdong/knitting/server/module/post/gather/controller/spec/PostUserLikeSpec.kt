@@ -4,9 +4,7 @@ import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.Parameter
 import io.swagger.v3.oas.annotations.tags.Tag
 import kr.disdong.knitting.auth.kakao.dto.AccessTokenClaims
-import kr.disdong.knitting.common.annotation.CurrentUserClaims
 import kr.disdong.knitting.common.dto.KnittingResponse
-import org.springframework.web.bind.annotation.PathVariable
 
 @Tag(name = "게시글 좋아요", description = "게시글 좋아요 api 입니다.")
 interface PostUserLikeSpec {
@@ -17,7 +15,7 @@ interface PostUserLikeSpec {
     )
     fun like(
         @Parameter(hidden = true)
-        @CurrentUserClaims claims: AccessTokenClaims,
-        @PathVariable postId: Long,
+        claims: AccessTokenClaims,
+        postId: Long,
     ): KnittingResponse<Long>
 }
