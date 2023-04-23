@@ -4,7 +4,6 @@ include(
     "knitting-server",
     "knitting-mysql",
     "knitting-auth",
-    "knitting-gateway",
     "knitting-common",
     "knitting-storage"
 )
