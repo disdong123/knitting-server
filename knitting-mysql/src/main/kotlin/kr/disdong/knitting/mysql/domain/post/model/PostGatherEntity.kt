@@ -21,7 +21,7 @@ import kr.disdong.knitting.mysql.domain.post.converter.PriceTypeConverter
 import java.time.ZonedDateTime
 
 @Entity(name = "post_gather")
-data class PostGatherEntity(
+class PostGatherEntity(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0,

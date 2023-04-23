@@ -16,13 +16,15 @@ data class PostGather(
     val priceType: PriceType,
     val needleType: NeedleType,
     val postGatherStatus: PostGatherStatus,
+    val isLike: Boolean,
+    val likeCount: Long,
     val startedAt: ZonedDateTime,
     val endedAt: ZonedDateTime,
     val postGatherDetail: PostGatherDetail? = null,
 ) {
     companion object {
 
-        fun of(entity: PostGatherEntity): PostGather {
+        fun of(entity: PostGatherEntity, isLike: Boolean): PostGather {
             return PostGather(
                 postId = entity.post.id,
                 title = entity.post.title,
@@ -31,6 +33,8 @@ data class PostGather(
                 priceType = entity.priceType,
                 needleType = entity.needleType,
                 postGatherStatus = entity.status,
+                isLike = isLike,
+                likeCount = entity.post.postUserLikeList.count().toLong(),
                 startedAt = entity.startedAt,
                 endedAt = entity.endedAt,
                 postGatherDetail = PostGatherDetail(
@@ -39,7 +43,7 @@ data class PostGather(
             )
         }
 
-        fun of(entities: List<PostGatherEntity>): List<PostGather> = entities.map { of(it) }
+        fun of(entities: List<PostGatherEntity>, isListList: List<Boolean>): List<PostGather> = entities.mapIndexed { index, it -> of(it, isListList[index]) }
     }
 }
 

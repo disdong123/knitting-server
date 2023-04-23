@@ -25,32 +25,35 @@ class PostGatherService(
     private val logger = logger<PostGatherService>()
 
     @Transactional(readOnly = true)
-    fun list(pageParam: PageParam): PagedList<PostGather> {
+    fun list(pageParam: PageParam, userId: Long): PagedList<PostGather> {
         val entities = postGatherRepository.findAll()
-
         return PagedList(
             page = pageParam.page,
             size = pageParam.size,
             total = entities.size,
-            PostGather.of(entities)
+            PostGather.of(
+                entities,
+                entities.map { entity ->
+                    entity.post.isUserLiked(userId)
+                }
+            )
         )
     }
 
     @Transactional(readOnly = true)
-    fun getById(id: Long): PostGather {
+    fun getById(id: Long, userId: Long): PostGather {
         val entity = postGatherRepository.findWithPostById(id) ?: throw PostGatherNotFoundException(id)
-
-        return PostGather.of(entity)
+        return PostGather.of(entity, entity.post.isUserLiked(userId))
     }
 
     @Transactional
     fun create(userId: Long, body: CreatePostGatherBody): PostGather {
-        logger.info("create(userId=$userId, body=$body)")
+        logger.info("create(userId: $userId, body: $body)")
 
         val userEntity = userRepository.findByUserId(userId)
             ?: throw UserNotFoundException(userId)
 
-        logger.info("userEntity=$userEntity")
+        logger.info("userEntity: $userEntity")
 
         val post = PostEntity(
             user = userEntity,
@@ -73,10 +76,8 @@ class PostGatherService(
             endedAt = body.endedAt,
         )
 
-        logger.info("postGatherEntity=$postGatherEntity")
+        logger.info("postGatherEntity: $postGatherEntity")
 
-        println(postGatherEntity)
-
-        return PostGather.of(postGatherRepository.save(postGatherEntity))
+        return PostGather.of(postGatherRepository.save(postGatherEntity), postGatherEntity.post.isUserLiked(userId))
     }
 }

@@ -5,7 +5,7 @@ import kr.disdong.knitting.common.token.Token
 import kr.disdong.knitting.mysql.common.model.BaseEntity
 
 @Entity(name = "user")
-data class UserEntity(
+class UserEntity(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long = 0,

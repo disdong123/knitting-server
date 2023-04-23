@@ -7,3 +7,9 @@ class PostGatherNotFoundException(id: Long) : KnittingException("함뜨 게시�
         return 404
     }
 }
+
+class PostNotFoundException(id: Long) : KnittingException("게시글을 찾지 못했습니다. id: $id") {
+    override fun getCode(): Int {
+        return 404
+    }
+}
